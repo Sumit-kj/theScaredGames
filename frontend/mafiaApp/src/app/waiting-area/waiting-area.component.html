@@ -1,0 +1,12 @@
+<html>
+<h1>
+    WAITING FOR OTHER PLAYERS
+</h1>
+<h3><countdown [config]="{leftTime: 100, notify: [ 2, 5 ]}" (start)="onStart()" (finished)="onFinished()" (notify)="onNotify($event)"></countdown></h3>
+<button class="linkbtn" (click)="linkVisible()">Click to invite friends</button>
+<div *ngIf=visibleLink>
+    <textarea>COPY THIS LINK</textarea>
+</div>
+<button class="btn" id="enterGame">Ready</button>
+<button class="btn" id="LeaveGame">Leave Game</button>
+</html>
