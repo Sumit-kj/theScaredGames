@@ -1,30 +1,13 @@
-<html>
-
-<head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-</head>
-
-<body>
-    <h1>
-        Welcome To Scared Games
-    </h1>
-    <div *ngIf=[visibleInput] >
-    <form id="main">
-        <span>Enter Username: </span>
-            <input type="text" name="Username"><br><br>
-            <button (click)="registerFunc()">Click to Play</button><br><br>
-            <a href ="https://www.wikihow.com/Play-Mafia" target="_blank">How to play</a>
-           
-    </form>
-    </div>
-
-    <h3><countdown [config]="{leftTime: 100, notify: [ 2, 5 ]}" (start)="onStart()" (finished)="onFinished()" (notify)="onNotify($event)">$!m!:$!s!</countdown></h3>
-
-</body>
-
-
-
-
-
-
-</html>
+<div class="welcome-card">
+    <h1 class="title">Scared Games</h1>
+    <button mat-raised-button color="primary" routerLink="lobby">Play</button>
+    <button mat-raised-button color="#fff" routerLink="lobby">Join a Game</button>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                How to play
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>Write how to play here</p>
+    </mat-expansion-panel>
+</div>

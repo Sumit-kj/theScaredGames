@@ -1,12 +1,43 @@
-<html>
-<h1>
-    WAITING FOR OTHER PLAYERS
-</h1>
-<h3><countdown [config]="{leftTime: 100, notify: [ 2, 5 ]}" (start)="onStart()" (finished)="onFinished()" (notify)="onNotify($event)"></countdown></h3>
-<button class="linkbtn" (click)="linkVisible()">Click to invite friends</button>
-<div *ngIf=visibleLink>
-    <textarea>COPY THIS LINK</textarea>
+<div class="lobby">
+    <mat-card class="lobby-card-players">
+        <mat-card-header>
+            <mat-card-title>Joined Players</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-list>
+                <h3 mat-subheader>In Lobby</h3>
+                <mat-list-item>PLayer1</mat-list-item>
+                <mat-list-item>PLayer1</mat-list-item>
+                <mat-list-item>PLayer1</mat-list-item>
+                <mat-list-item>PLayer1</mat-list-item>
+                <mat-list-item>PLayer1</mat-list-item>
+                <mat-list-item>PLayer1</mat-list-item>
+                <mat-list-item>PLayer1</mat-list-item>
+                <mat-list-item>PLayer1</mat-list-item>
+                <mat-list-item>PLayer1</mat-list-item>
+                <mat-list-item>PLayer1</mat-list-item>
+            </mat-list>
+        </mat-card-content>
+        </mat-card>
+        
+        <mat-card class="lobby-card-character">
+            <mat-card-header>
+                <mat-card-title>Customize your character</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <mat-list>
+                    <h3 mat-subheader>In Lobby</h3>
+                    <mat-list-item>PLayer1</mat-list-item>
+                    <mat-list-item>PLayer1</mat-list-item>
+                    <mat-list-item>PLayer1</mat-list-item>
+                    <mat-list-item>PLayer1</mat-list-item>
+                    <mat-list-item>PLayer1</mat-list-item>
+                    <mat-list-item>PLayer1</mat-list-item>
+                    <mat-list-item>PLayer1</mat-list-item>
+                    <mat-list-item>PLayer1</mat-list-item>
+                    <mat-list-item>PLayer1</mat-list-item>
+                    <mat-list-item>PLayer1</mat-list-item>
+                </mat-list>
+            </mat-card-content>
+            </mat-card>
 </div>
-<button class="btn" id="enterGame">Ready</button>
-<button class="btn" id="LeaveGame">Leave Game</button>
-</html>

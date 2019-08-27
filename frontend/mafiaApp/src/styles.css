@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
-body{
+@import '~@angular/material/prebuilt-themes/pink-bluegrey.css';
+@import url('https://fonts.googleapis.com/css?family=Bree+Serif|Livvic|Roboto&display=swap');
+body {
     background:url("https://wallpaperplay.com/walls/full/b/0/8/272660.jpg");
     background-size: 100%;
     background-repeat: no-repeat;

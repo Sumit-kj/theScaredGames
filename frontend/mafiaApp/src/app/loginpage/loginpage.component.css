@@ -1,32 +1,21 @@
-body{
+.welcome-card {
+    width: 50%;
     background: none;
-}
-form {
-    background:lightblue;
-    margin-left:40%;
-    opacity: 0.5;
-    margin-top:15%; 
-    width:25% ;
-    border:2px solid black;
-    position: relative;
-    padding:2%;
-}
-
-h1{
     text-align: center;
-    color: red;
-}
-
-h3{
-    color: azure;
+    margin: auto;
+    margin-top: 20%;
 }
 button {
-    border-radius: 10%;
-    margin-left: 30%;
-    color:red;
-    background-color: black;
-    font-size: 100%;
+    margin-left: 3px;
 }
-span {
-    width: 5px;
+.title {
+    font-family: 'Bree Serif',serif;
+    font-size: 70px;
+    font-weight: 800;
+    color: red;
+}
+mat-expansion-panel {
+    margin: auto;
+    margin-top: 10px;
+    width: 400px;
 }
