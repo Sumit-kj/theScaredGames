@@ -31,4 +31,7 @@ export class WaitingAreaComponent implements OnInit {
     element.classList.add("selected");
     this.previousElement = element;
   }
+  beginGame():void {
+    this.userService.setUserRole();
+  }
 }
