@@ -19,6 +19,8 @@ import {MatBadgeModule} from '@angular/material/badge'
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
 import { DayNightComponent } from './day-night/day-night.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+
 
 
 @NgModule({
@@ -38,6 +40,7 @@ import { DayNightComponent } from './day-night/day-night.component';
     CountdownModule,
     FormsModule,
     BrowserAnimationsModule,
+    MatSnackBarModule,
     MatTooltipModule,
     MatButtonModule,
     MatBadgeModule,
