@@ -8,6 +8,7 @@ import { FormsModule }   from '@angular/forms';
 })
 export class ChatroomComponent  {
   results:any[]=[];
+  randomKey:number;
   sentmessage=false;
   chatEnabled = false;
   constructor(private http:HttpClient) {
@@ -22,17 +23,20 @@ export class ChatroomComponent  {
   message=[];
   playerName:String="player_7"
   sendMessage(){
-    this.sentmessage = true;
+    
     var msgjson = this.text;
     if(msgjson=="")
       return;
-      console.log(this.text);
+      this.sentmessage = true;
+      // console.log(this.text);
     var jsonf = {'name':this.playerName,'message':msgjson};
     this.message.unshift(jsonf);
     this.text = "";
-    console.log(this.message);
+    // console.log(this.message);
+    
   }
- 
+  
+  
 }
 
 

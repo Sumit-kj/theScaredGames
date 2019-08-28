@@ -1,27 +1,37 @@
-.container{
+.chatCard {
     /* float:right; */
-    margin-top:30%;
-    margin-bottom:0%;
+    /* margin-top:30%;
+    margin-bottom:0%; */
     width: 300px;
-    height:200px;
+    height: 550px;
     overflow-y:auto;
+    overflow-x:auto;
     background-color:beige;
     float :right;
+    margin:0;
 
 }
-input {
-    width:250px;
-    background-color:rgb(22, 20, 20);
-    border-radius: 10%;
-    color:white;
-}
+
+ .inputWidth {
+    width:75%;
+    color:black;
+ }
+ 
+ ::ng-deep.mat-form-field-underline {
+    /*change color of underline*/
+    background-color: black !important;
+  } 
+
 .chatroom {
     margin-top:30%;
 }
-/* .chatbtn{
-    width:300px;
-    border-radius: 5%;
-} */
-.sendbtn{
-    width: auto;
+
+.mat-card-actions{
+    margin-top:-30px;
+    padding-bottom: 0px;
+}
+.mat-raised-button {
+    min-width: 10%;
+    /* padding-left:2px; */
+    margin:0;
 }
