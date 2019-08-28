@@ -33,10 +33,9 @@ export class ChatroomComponent  {
     this.message.unshift(jsonf);
     this.text = "";
     // console.log(this.message);
-    this.randomKey = Math.floor(Math.random() * 10);
-    console.log(this.names[this.randomKey]);
+    
   }
-  names=['player1','player2','player3','player4','player5','player6','player7','player8','player9','player10'];
+  
   
 }
 

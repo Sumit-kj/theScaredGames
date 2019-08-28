@@ -12,6 +12,9 @@ import { element } from 'protractor';
 })
 export class VotingComponent implements OnInit {
 
+    names=[];
+    randomKey;
+
     json_data = {
         "1":[
             
@@ -120,13 +123,13 @@ export class VotingComponent implements OnInit {
     session_id = 1;
     game_data;
     earlierVotedPlayer = "player_8";
-
+    playerNames =[];
     constructor(private userSessionsService:UserSessionsService) { 
     }
-
+    
     ngOnInit() {
         this.game_data = this.json_data[this.session_id];
-        // console.log(this.game_data);
+        console.log(this.game_data.length);
         // console.log(this.username);
     }
 
@@ -138,7 +141,9 @@ export class VotingComponent implements OnInit {
         else
             clickedPlayer = argument['path'][2].id;
         console.log("clickedPlayer: "+clickedPlayer);
-
+      
+        this.randomKey = Math.floor(Math.random() * 10);
+        console.log(this.json_data[this.session_id][this.randomKey].name);
         //   check if same player clicked again
         if(this.earlierVotedPlayer == clickedPlayer){
             //   voted and voter attribute reset and deleted
@@ -182,5 +187,5 @@ export class VotingComponent implements OnInit {
     get username(){
         return this.userSessionsService.User.username;
     }
-
+   
 }
