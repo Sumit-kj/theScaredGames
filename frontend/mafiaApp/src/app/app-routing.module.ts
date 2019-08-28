@@ -11,7 +11,7 @@ const routes: Routes = [
   {'path': '', component:LoginpageComponent },
   {'path': 'lobby', component:WaitingAreaComponent},
   {'path': 'voting', component:VotingComponent},
-  {'path': 'game', component:DayNightComponent}
+  {'path': 'game', component:DayNightComponent},
   {'path': 'chat', component:ChatroomComponent }
 ];
 
