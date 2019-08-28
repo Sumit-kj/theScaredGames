@@ -1,3 +1,4 @@
+import { ChatroomComponent } from './chatroom/chatroom.component';
 import { VotingComponent } from './voting/voting.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -11,6 +12,7 @@ const routes: Routes = [
   {'path': 'lobby', component:WaitingAreaComponent},
   {'path': 'voting', component:VotingComponent},
   {'path': 'game', component:DayNightComponent}
+  {'path': 'chat', component:ChatroomComponent }
 ];
 
 @NgModule({

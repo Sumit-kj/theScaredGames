@@ -1,3 +1,4 @@
+import { ChatroomComponent } from './chatroom/chatroom.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { CountdownModule } from 'ngx-countdown';
@@ -28,7 +29,8 @@ import { DayNightComponent } from './day-night/day-night.component';
     
     VotingComponent,
     
-    DayNightComponent
+    DayNightComponent,
+    ChatroomComponent,
   ],
   imports: [
     BrowserModule,

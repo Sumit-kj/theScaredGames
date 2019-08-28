@@ -2,14 +2,23 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-<div class = "container">
-    <input [(ngModel)] ="text" (keyup.enter)="sendMessage()">
-    <button class="sendbtn" (click)="sendMessage()"><i class="fa fa-send-o"></i>
-    </button>
+    <mat-card class="chatCard">
+    <div class = "container">
+        <mat-card-actions>
+                <mat-form-field class="inputWidth">  
+                <input matInput color="primary" [(ngModel)] ="text" (keyup.enter)="sendMessage()">       
+            </mat-form-field>
+            <button mat-raised-button class="sendbtn" (click)="sendMessage()"><i class="fa fa-send-o"></i>
+            </button>
+              </mat-card-actions>
+ <mat-card-content>   
 <ng-container *ngIf="sentmessage">    
 <div *ngFor="let msg of message">
     <p [style.color]="colorPlayer"> {{msg.name}}: {{msg.message}}</p>
 </div>
+
 </ng-container>
+</mat-card-content>
 </div>
+</mat-card>
 </body>
