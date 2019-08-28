@@ -6,38 +6,49 @@
         <mat-card-content>
             <mat-list>
                 <h3 mat-subheader>In Lobby</h3>
-                <mat-list-item>PLayer1</mat-list-item>
-                <mat-list-item>PLayer1</mat-list-item>
-                <mat-list-item>PLayer1</mat-list-item>
-                <mat-list-item>PLayer1</mat-list-item>
-                <mat-list-item>PLayer1</mat-list-item>
-                <mat-list-item>PLayer1</mat-list-item>
-                <mat-list-item>PLayer1</mat-list-item>
-                <mat-list-item>PLayer1</mat-list-item>
-                <mat-list-item>PLayer1</mat-list-item>
-                <mat-list-item>PLayer1</mat-list-item>
+                <mat-list-item><img src="{{user.avatar}}" class="circleImage">{{user.username}}</mat-list-item>
+                <mat-list-item><img src="https://api.adorable.io/avatars/100/ab@adorable.png" class="circleImage">Player2</mat-list-item>
+                <mat-list-item><img src="https://api.adorable.io/avatars/100/abott@adorable.png" class="circleImage">Player3</mat-list-item>
+                <mat-list-item><img src="https://api.adorable.io/avatars/100/sumit@adorable.png" class="circleImage">Player4</mat-list-item>
+                <mat-list-item><img src="https://api.adorable.io/avatars/100/kartik@adorable.png" class="circleImage">Player5</mat-list-item>
+                <mat-list-item><img src="https://api.adorable.io/avatars/100/ankit@adorable.png" class="circleImage">Player6</mat-list-item>
+                <mat-list-item><img src="https://api.adorable.io/avatars/100/at@adorable.png" class="circleImage">Player7</mat-list-item>
+                <mat-list-item><img src="https://api.adorable.io/avatars/100/aot@adorable.png" class="circleImage">Player8</mat-list-item>
+                <mat-list-item><img src="https://api.adorable.io/avatars/100/abo@adorable.png" class="circleImage">Player9</mat-list-item>
+                <mat-list-item><img src="https://api.adorable.io/avatars/100/abtt@adorable.png" class="circleImage">Player10</mat-list-item>
             </mat-list>
         </mat-card-content>
         </mat-card>
         
         <mat-card class="lobby-card-character">
             <mat-card-header>
-                <mat-card-title>Customize your character</mat-card-title>
+                <mat-card-title>Customize your character {{user.username}}</mat-card-title>
             </mat-card-header>
             <mat-card-content>
-                <mat-list>
-                    <h3 mat-subheader>In Lobby</h3>
-                    <mat-list-item>PLayer1</mat-list-item>
-                    <mat-list-item>PLayer1</mat-list-item>
-                    <mat-list-item>PLayer1</mat-list-item>
-                    <mat-list-item>PLayer1</mat-list-item>
-                    <mat-list-item>PLayer1</mat-list-item>
-                    <mat-list-item>PLayer1</mat-list-item>
-                    <mat-list-item>PLayer1</mat-list-item>
-                    <mat-list-item>PLayer1</mat-list-item>
-                    <mat-list-item>PLayer1</mat-list-item>
-                    <mat-list-item>PLayer1</mat-list-item>
-                </mat-list>
+                <mat-card class="card">
+                    <mat-card-header>
+                        <mat-card-title>Select an avatar</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content class="avatar-grid">
+                                <img (click)="setAvatar($event.target)" src="https://api.adorable.io/avatars/100/abe@adorable.png" class="circle-image-selection">
+                                <img (click)="setAvatar($event.target)" src="https://api.adorable.io/avatars/100/abott@adorable.png" class="circle-image-selection">
+                                <img (click)="setAvatar($event.target)" src="https://api.adorable.io/avatars/100/ab@adorable.png" class="circle-image-selection">
+                                <img (click)="setAvatar($event.target)" src="https://api.adorable.io/avatars/100/sumit@adorable.png" class="circle-image-selection">
+                                <img (click)="setAvatar($event.target)" src="https://api.adorable.io/avatars/100/kartik@adorable.png" class="circle-image-selection">
+                                <img (click)="setAvatar($event.target)" src="https://api.adorable.io/avatars/100/ankit@adorable.png" class="circle-image-selection">
+                                <img (click)="setAvatar($event.target)" src="https://api.adorable.io/avatars/100/at@adorable.png" class="circle-image-selection">
+                                <img (click)="setAvatar($event.target)" src="https://api.adorable.io/avatars/100/aot@adorable.png" class="circle-image-selection">
+                                <img (click)="setAvatar($event.target)" src="https://api.adorable.io/avatars/100/abo@adorable.png" class="circle-image-selection">
+                                <img (click)="setAvatar($event.target)" src="https://api.adorable.io/avatars/100/abtt@adorable.png" class="circle-image-selection">
+                    </mat-card-content>
+                </mat-card>
+                <div class="role">
+                    <img class="role-card" src="https://media.istockphoto.com/photos/playing-card-king-of-spades-picture-id458126511?k=6&m=458126511&s=612x612&w=0&h=x0PjZz2iHWp20B02idcOE_UBoOh2XGkQoUiucxcHalg=" />
+                    <div class="buttons">
+                        <button class="full-width-button" id="go" mat-raised-button>Go!</button>
+                        <button class="full-width-button" id="leave" mat-raised-button>Leave :(</button>
+                    </div>
+                </div>
             </mat-card-content>
             </mat-card>
 </div>

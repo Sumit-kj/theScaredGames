@@ -1,7 +1,7 @@
 export class User{
-    username: String;
-    role: String;
-    avatar: String;
+    username: string;
+    role: string;
+    avatar: string;
     alive: boolean;
-    color: String;
+    color: string;
 }

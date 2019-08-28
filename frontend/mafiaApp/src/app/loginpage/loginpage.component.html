@@ -1,7 +1,14 @@
 <div class="welcome-card">
     <h1 class="title">Scared Games</h1>
-    <button mat-raised-button color="primary" routerLink="lobby">Play</button>
-    <button mat-raised-button color="#fff" routerLink="lobby">Join a Game</button>
+    <mat-form-field class="user-entry">
+        <input matInput placeholder="username" #user [(ngModel)]="username" required>
+        <mat-error *ngIf="!user.valid || user.value == '' || user.value == ' '">Please enter a valid username</mat-error>
+    </mat-form-field>
+    <br>
+    <button mat-raised-button color="primary" routerLink="lobby" 
+    (click)="startGame()" [disabled]="this.username == '' || this.username == ' '">Play</button>
+    <button mat-raised-button color="#fff" routerLink="lobby" 
+    (click)="joinGame()" [disabled]="this.username == '' || this.username == ' '">Join a Game</button>
     <mat-expansion-panel>
         <mat-expansion-panel-header>
             <mat-panel-title>

@@ -1,7 +1,67 @@
+.lobby-card-character {
+    grid-column: 3;
+}
 .lobby-card-players {
+    grid-column: 1;
+}
+.selected {
+    border: 6px solid black;
+}
+mat-list {
+    overflow-y: scroll;
+    height: 20em;
 }
 .lobby {
     display: grid;
-    /* gri-co */
-    grid-template-columns: 40% 50%;
+    grid-template-columns: 30% 20% 50%;
+}
+.circleImage {
+    width: 30px;
+    height: 30px;
+    margin: 10px;
+    border-radius: 50%;
+}
+.card {
+    background: white;
+    color: black;
+}
+.circle-image-selection {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+.avatar-grid {
+    display: grid;
+    height: 200px;
+    grid-template-columns: 3fr 3fr 3fr 3fr 3fr;
+    grid-template-rows: 2fr 2fr;
+    grid-gap: 20px 20px;
+    cursor: pointer;
+}
+.circle-image-selection:hover {
+    border: 6px solid #3f51b5;
+    z-index: 20;
+    border-radius: 50%;
+}
+.role {
+    display: grid;
+    margin-top: 3px;
+    grid-template-columns: 2fr 2fr;
+}
+.role-card {
+    width: 15em;
+    height: 20em;
+}
+.buttons {
+    margin: auto;
+}
+.full-width-button {
+    width: 100%;
+    margin: 10px;
+}
+#go {
+    background-color: greenyellow;
+}
+#leave {
+    background-color: red;
 }
