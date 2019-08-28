@@ -1,3 +1,4 @@
+import { UserSessionsService } from './../user-sessions.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -5,10 +6,10 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './waiting-area.component.html',
   styleUrls: ['./waiting-area.component.css']
 })
-export class WaitingAreaComponent  {
+export class WaitingAreaComponent implements OnInit {
 
   visibleLink=false;
-  constructor() { 
+  constructor(private userService:UserSessionsService) { 
     this.visibleLink=false;
   }
 
@@ -23,5 +24,8 @@ export class WaitingAreaComponent  {
   {
     console.log("finished");
   }
-
+  ngOnInit() {
+    console.log("Started");
+    console.log(this.userService.User.username);
+  }
 }

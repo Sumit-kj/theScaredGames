@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { UserSessionsService } from './../user-sessions.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { element } from 'protractor';
 
 
 @Component({
@@ -11,91 +13,160 @@ import { Observable } from 'rxjs';
 export class VotingComponent implements OnInit {
 
   json_data = {
-    "1":{
-        "player_1":
+    "1":[
+        
         {
+            "name":"player_1",
             "role":"mafia",
             "avatar":"",
+            "voted":"",
+            "voters":[],
             "alive":true,
-            "text_color":"#ccaadd"
+            "text_color":"#0000cd"
         },
-        "player_2":
         {
+            "name":"player_2",
             "role":"mafia",
             "avatar":"",
+            "voted":"",
+            "voters":[],
             "alive":true,
-            "text_color":"#ccbbdd"
+            "text_color":"#F08080"
         },
-        "player_3":
         {
+            "name":"player_3",
             "role":"mafia",
             "avatar":"",
+            "voted":"",
+            "voters":[],
             "alive":true,
-            "text_color":"#ccccdd"
+            "text_color":"#00ff00"
         },
-        "player_4":
         {
+            "name":"player_4",
             "role":"detective",
             "avatar":"",
+            "voted":"",
+            "voters":["player_3","player_8"],
             "alive":true,
-            "text_color":"#ccdddd"
+            "text_color":"#40e0d0"
         },
-        "player_5":
         {
+            "name":"player_5",
             "role":"detective",
             "avatar":"",
+            "voted":"",
+            "voters":[],
             "alive":true,
-            "text_color":"#cceedd"
+            "text_color":"#7B68EE"
         },
-        "player_6":
         {
+            "name":"player_6",
             "role":"doctor",
             "avatar":"",
+            "voted":"",
+            "voters":[],
             "alive":true,
-            "text_color":"#ccffdd"
+            "text_color":"#FF00ff"
         },
-        "player_7":
         {
+            "name":"player_7",
             "role":"citizen",
             "avatar":"",
+            "voted":"",
+            "voters":[],
             "alive":true,
-            "text_color":"#ccaadd"
+            "text_color":"#8B008B"
         },
-        "player_8":
         {
+            "name":"player_8",
             "role":"citizen",
             "avatar":"",
+            "voted":"",
+            "voters":[],
             "alive":true,
-            "text_color":"#ccaadd"
+            "text_color":"#FF1493"
         },
-        "player_9":
         {
+            "name":"player_9",
             "role":"citizen",
             "avatar":"",
+            "voted":"",
+            "voters":[],
             "alive":true,
-            "text_color":"#ccaadd"
+            "text_color":"#DAA520"
         },
-        "player_10":
         {
+            "name":"player_10",
             "role":"citizen",
             "avatar":"",
+            "voted":"",
+            "voters":[],
             "alive":true,
             "text_color":"#ccaadd"
         }
-    }
+    ]
 };
 session_id = 1;
 game_data;
-rows_count;
-columns_count;
+earlierVotedPlayer = "";
 
-  constructor(private http: HttpClient) { 
-
-
+  constructor(private userSessionsService:UserSessionsService) { 
 }
 
   ngOnInit() {
     this.game_data = this.json_data[this.session_id];
+    console.log(this.game_data);
+    console.log(this.userSessionsService.User.username);
+  }
+
+  voteCasted(argument){
+      var clickedPlayer;
+      if(argument['path'][0].className == "mat-figure")
+        clickedPlayer = argument['path'][1].id;
+      else
+        clickedPlayer = argument['path'][2].id;
+      console.log("clickedPlayer: "+clickedPlayer);
+      if(this.earlierVotedPlayer == clickedPlayer){
+        this.game_data.forEach(element => {
+            if(element['name']== this.username){
+                this.earlierVotedPlayer = "";
+                element['voted']="";
+            }
+            if(element['name']==clickedPlayer){
+                element['voters'].pop(this.username)
+            }
+        });
+      }
+      else{
+        this.game_data.forEach(element => {
+            if(element['name']== this.username){
+                // if(element['voted'] != "")
+                //     this.earlierVotedPlayer = element['voted'];
+                element['voted']=clickedPlayer;
+            }
+            if(element['name']==clickedPlayer){
+                element['voters'].push(this.username)
+            }
+        });
+        if(this.earlierVotedPlayer!=""){
+            this.game_data.forEach(element => {
+                if(element['name']== this.earlierVotedPlayer)
+                    element['voters'].pop(this.username)
+            });
+        }
+        if(this.earlierVotedPlayer!="")
+            console.log("earlierPlayer: "+this.earlierVotedPlayer);
+        console.log(this.game_data);  
+    }
+    if(this.earlierVotedPlayer == clickedPlayer)
+        this.earlierVotedPlayer = "";
+    else
+        this.earlierVotedPlayer = clickedPlayer;
+  }
+
+  get username(){
+      return this.userSessionsService.User.username;
   }
 
 }
