@@ -17,6 +17,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatBadgeModule} from '@angular/material/badge'
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
+import { DayNightComponent } from './day-night/day-night.component';
 
 
 @NgModule({
@@ -25,7 +26,9 @@ import { FormsModule } from '@angular/forms';
     LoginpageComponent,
     WaitingAreaComponent,
     
-    VotingComponent
+    VotingComponent,
+    
+    DayNightComponent
   ],
   imports: [
     BrowserModule,
