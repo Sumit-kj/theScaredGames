@@ -1,1 +1,6 @@
-<p>day-night works!</p>
+<div class="div-game-mode">
+    <countdown 
+    [config]="{leftTime: 10, notify: [5]}" 
+    (notify)="onNotify()"
+    style="color: white">$!m!:$!s!</countdown>
+</div>
