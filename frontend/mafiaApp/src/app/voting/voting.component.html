@@ -7,10 +7,10 @@
             [attr.id]="tile.name"
             [style.background]="tile.text_color" 
             style="color:white;max-width: 100px;max-height: 100px;"    
-            (click)="voteCasted($event)">
+            (click)="voteCasted($event)"
+            matTooltip="{{ tile.hint }}" matTooltipClass="example-tooltip-red">
                 <p matBadge="{{ tile.voters.length || '0' }}" matBadgeOverlap="false" matBadgePosition="right"
-                matTooltip="{{ tile.voters }}"
-                matTooltipPosition="right">{{tile.name}}</p>
+                matTooltip="{{ tile.voters }}"matTooltipPosition="right">{{tile.name}}</p>
         </mat-grid-tile>
     </ng-container>
   </mat-grid-list>
