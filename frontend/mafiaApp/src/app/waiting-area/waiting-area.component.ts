@@ -11,6 +11,7 @@ export class WaitingAreaComponent implements OnInit {
   user:User = new User();
   visibleLink=false;
   previousElement:any = undefined;
+  inviteUrl:string = "http://localhost:8000/join_game/session?="
   constructor(private userService:UserSessionsService) { 
     this.visibleLink=false;
   }
