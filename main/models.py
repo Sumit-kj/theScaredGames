@@ -16,7 +16,14 @@ class Player(models.Model):
     session = models.ForeignKey(Session, on_delete=models.CASCADE)
 
 
+class Vote(models.Model):
+    id = models.AutoField()
+    p = models.ForeignKey(Player, on_delete=models.CASCADE)
+    voted = models.ForeignKey(Player, on_delete=models.CASCADE)
+
+
 class Chat(models.Model):
+    id = models.AutoField(primary_key=True)
     session = models.ForeignKey(Session, on_delete=models.CASCADE)
     p_id = models.ForeignKey(Player, on_delete=models.CASCADE)
     message = models.TextField()

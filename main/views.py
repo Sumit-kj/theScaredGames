@@ -36,7 +36,7 @@ def create_session(request):
 def join_session(request, session):
     try:
         if Session.objects.filter(session=session).count() != 0:
-            response = JsonResponse({'status': 'success'})
+            response = JsonResponse({'session': session, 'state': 'begin'})
             response.set_cookie(session)
         else:
             raise Exception('session does not exist')
@@ -64,8 +64,8 @@ def create_player(request):
         return json_error(e)
 
 
-def kill_player(request):
-    return None
+def kill_player(request, pid):
+    Player.objects.get(id=pid).delete()
 
 
 def session_change(request):
