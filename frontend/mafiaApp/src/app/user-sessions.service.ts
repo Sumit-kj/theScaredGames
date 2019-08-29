@@ -1,6 +1,7 @@
 import { User } from './user';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { timingSafeEqual } from 'crypto';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,8 @@ export class UserSessionsService {
     });
   }
   get User(): User {
-    this.theUser.role = "mafia";
+    this.theUser.username = "player_7";
+    this.userProperties("","#8B008B","detective",true);
     return this.theUser;
   }
   get userName(): string {

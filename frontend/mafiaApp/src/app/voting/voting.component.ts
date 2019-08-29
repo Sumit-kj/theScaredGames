@@ -54,7 +54,7 @@ export class VotingComponent implements OnInit {
                 "role":"detective",
                 "avatar":"",
                 "voted":"",
-                "voters":["player_3","player_8"],
+                "voters":[],
                 "alive":true,
                 "hint":"hint",
                 "text_color":"#40e0d0"
@@ -94,7 +94,7 @@ export class VotingComponent implements OnInit {
                 "role":"citizen",
                 "avatar":"",
                 "voted":"",
-                "voters":["player_4","player_7","player_9"],
+                "voters":[],
                 "alive":true,
                 "hint":"hint",
                 "text_color":"#FF1493"
@@ -123,7 +123,7 @@ export class VotingComponent implements OnInit {
     };
     session_id = 1;
     
-    earlierVotedPlayer = "player_8";
+    earlierVotedPlayer = "";
     playerNames =[];
     constructor(private userSessionsService:UserSessionsService) { 
         
@@ -157,14 +157,13 @@ export class VotingComponent implements OnInit {
 
     voteCasted(argument){
         var clickedPlayer;
+        console.log(this.username);
         //   Finding Clicked Player
         if(argument['path'][0].className == "mat-figure")
             clickedPlayer = argument['path'][1].id;
         else
             clickedPlayer = argument['path'][2].id;
         console.log("clickedPlayer: "+clickedPlayer);
-      //mera code
-       
         //   check if same player clicked again
         if(this.earlierVotedPlayer == clickedPlayer){
             //   voted and voter attribute reset and deleted
@@ -173,6 +172,7 @@ export class VotingComponent implements OnInit {
                     element['voted']="";
                 }
                 if(element['name']==clickedPlayer){
+                    console.log(element['voters'].indexOf(this.username));                       
                     element['voters'].splice(element['voters'].indexOf(this.username),1);
                 }
             });
@@ -191,7 +191,8 @@ export class VotingComponent implements OnInit {
             if(this.earlierVotedPlayer!=""){
                 this.game_data.forEach(element => {
                     if(element['name']== this.earlierVotedPlayer)
-                        element['voters'].splice(element['voters'].indexOf(this.username),1);                        
+                        element['voters'].splice(element['voters'].indexOf(this.username),1); 
+                        console.log(element['voters'].indexOf(this.username));                       
                 });
             }
             if(this.earlierVotedPlayer!="")
