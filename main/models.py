@@ -12,7 +12,6 @@ class Player(models.Model):
     avatar = models.TextField()
     role = models.TextField()
     alive = models.BooleanField()
-    name = models.TextField()
     color = models.TextField()
     session = models.ForeignKey(Session, on_delete=models.CASCADE)
 

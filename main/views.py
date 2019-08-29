@@ -20,7 +20,8 @@ def create_session(request):
             session_id = random.getrandbits(24)
             s = Session(session=session_id, state="begin")
             s.save()
-            Player(name=request.POST['name'], session=s);
+            Player(name=request.POST['name'], alive=True,
+                   avatar="null", role="null", color="null", session=s).save()
             response = JsonResponse({'session': session_id, 'state': 'begin'})
             response.set_cookie('session', session_id)
             return response
@@ -86,7 +87,7 @@ def get_all(request, session):
 def chat(request):
     try:
         if request.method == "POST":
-            s = Session.objects.get(request.POST['session']).session
+            s = request.COOKIES['session']
             p_id = Session.objects.get(request.POST['pid'])
             message = request.POST['message']
             Chat(session=s, p_id=p_id, message=message).save()
