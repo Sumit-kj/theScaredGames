@@ -1,6 +1,8 @@
 import { UserSessionsService } from './../user-sessions.service';
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { User } from '../user';
+import { __await } from 'tslib';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'waiting-area',
@@ -11,19 +13,45 @@ export class WaitingAreaComponent implements OnInit {
   user:User = new User();
   visibleLink=false;
   cardImage ="https://media.istockphoto.com/photos/playing-card-king-of-spades-picture-id458126511?k=6&m=458126511&s=612x612&w=0&h=x0PjZz2iHWp20B02idcOE_UBoOh2XGkQoUiucxcHalg=";
-  cardImage = "https://cdn.pixabay.com/photo/2013/07/13/13/45/playing-card-161489__480.png";
+  imageList =["https://cdn.pixabay.com/photo/2013/07/13/13/45/playing-card-161489__480.png","https://cdn.pixabay.com/photo/2013/07/13/13/45/playing-card-161485__480.png","https://cdn.pixabay.com/photo/2013/07/13/13/45/playing-card-161488__480.png"];
   previousElement:any = undefined;
   constructor(private userService:UserSessionsService) { 
     this.visibleLink=false;
+   
   }
 
   linkVisible(){
     this.visibleLink=!this.visibleLink;
   }
+  i = 0;
+  animDuration = 50;
+  ntimes=0;
   ngOnInit() {
     this.user.username = this.userService.User.username; 
     this.user.avatar = "https://api.adorable.io/avatars/100/abe@adorable.png";
     console.log(this.userService.User.username);
+    
+    var timer = setInterval(()=>{
+      console.log(this.imageList[this.i]);
+      this.cardImage = this.imageList[this.i];
+      if(this.i == this.imageList.length-1)
+      {
+        this.i = 0;
+        this.ntimes++;
+      }
+      else {
+        this.i++;
+      }
+      if(this.ntimes == 15)
+      {
+        this.animDuration = 1000;
+        this.ntimes++;
+      }
+      else if(this.ntimes == 30){
+          clearInterval(timer);
+      }
+
+    }, this.animDuration);  
   }
   setAvatar(element):void {
     console.log(element);
