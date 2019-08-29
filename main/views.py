@@ -16,12 +16,16 @@ def get_role(request):
 
 def create_session(request):
     try:
-        session_id = random.getrandbits(24)
-        s = Session(session=session_id, state="begin")
-        s.save()
-        response = JsonResponse({'session': session_id, 'state': 'begin'})
-        response.set_cookie('session', session_id)
-        return response
+        if request.method == 'POST':
+            session_id = random.getrandbits(24)
+            s = Session(session=session_id, state="begin")
+            s.save()
+            Player(name=request.POST['name'], session=s);
+            response = JsonResponse({'session': session_id, 'state': 'begin'})
+            response.set_cookie('session', session_id)
+            return response
+        else:
+            raise Exception('send a POST request')
     except Exception as e:
         print(e)
         return json_error(e)
@@ -46,12 +50,13 @@ def get_user(request):
 def create_player(request):
     try:
         if request.method == 'POST':
-            Player(name=request.POST['name'],
-                   avatar=request.POST['avatar'],
-                   role=request.POST['role'],
-                   alive=request.POST['alive'],
-                   color=request.POST['color'],
-                   session=Session.objects.get(session=request.COOKIES.get('session'))).save()
+            p = Player.objects.get(name=request.POST['name'])
+            p.alive = request.POST['alive']
+            p.avatar = request.POST['avatar']
+            p.color = request.POST['color']
+            p.role = request.POST['role']
+            p.save()
+            return JsonResponse({'status': 'success'})
         else:
             raise Exception("Send a POST request with data included")
     except Exception as e:
@@ -85,7 +90,7 @@ def chat(request):
             p_id = Session.objects.get(request.POST['pid'])
             message = request.POST['message']
             Chat(session=s, p_id=p_id, message=message).save()
-            return JsonResponse({'status': 'successful'})
+            return JsonResponse({'status': 'success'})
         else:
             raise Exception('Please send a post message')
     except Exception as e:
@@ -93,7 +98,7 @@ def chat(request):
 
 
 def get_chat(request):
-    return None
+    pass
 
 
 def json_error(message):
