@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import {MatSnackBar} from '@angular/material/snack-bar';
+import { AppComponent } from './../app.component';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { CountdownComponent } from 'ngx-countdown';
+import { UserSessionsService } from '../user-sessions.service';
 
 @Component({
   selector: 'app-day-night',
@@ -7,6 +10,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
   styleUrls: ['./day-night.component.css']
 })
 export class DayNightComponent implements OnInit {
+
+  @ViewChild('countdown',{static:true}) counter: CountdownComponent = null ;
 
   json_data = {
     "1":[
@@ -46,7 +51,7 @@ export class DayNightComponent implements OnInit {
             "role":"detective",
             "avatar":"",
             "voted":"",
-            "voters":["player_3","player_8"],
+            "voters":[],
             "alive":true,
             "hint":"hint",
             "text_color":"#40e0d0"
@@ -86,7 +91,7 @@ export class DayNightComponent implements OnInit {
             "role":"citizen",
             "avatar":"",
             "voted":"",
-            "voters":["player_4","player_7","player_9"],
+            "voters":[],
             "alive":true,
             "hint":"hint",
             "text_color":"#FF1493"
@@ -113,28 +118,140 @@ export class DayNightComponent implements OnInit {
         }
     ]
   };
-
   ngOnInit() {
-    this.gameControl();
+    this.gameStart();
   }
-  constructor(private _snackBar: MatSnackBar) { }
+  constructor(private _snackBar: MatSnackBar, private userSessionsService:UserSessionsService) { }
 
   game_state : String;
+  game_phase : String;
+  game_message : String;
   session_id = "1";
   timer_period = 0;
+  dead_player = "player_4";
 
-  gameControl(): void{
-    if(this.checkIsGameOver())
-      return;
-    this.mafia_phase();
+  gameStart(): void{
+    this.trans_state_night_begins();
+  }
+
+  trans_state_night_begins(){
+    this.game_phase = "trans";
+    this.game_state = "night begins";
+    this.game_message ="Mafias Arise!";
+    this.timer_period = 3;
   }
 
   mafia_phase(){
-    this.timer_period = 60;
+    this.game_phase = "game";
+    this.game_state = "mafia"; 
+    this.timer_period = 3;
+    this.counter.restart();
+    console.log("mafia_phase");
+  }
+
+  trans_state_mafia_ends(){
+    this.game_phase = "trans";
+    this.game_state = "mafia to detective";
+    this.game_message = "Mafias Sleep!";
+    this.timer_period = 4;
+    this.counter.restart();
+  }
+
+  detective_phase(){
+    this.game_phase = "game";
+    this.game_state = "detective";
+    this.timer_period = 3;
+    this.counter.restart();
+  }
+
+  trans_state_detective_ends(){
+    this.game_phase = "trans";
+    this.game_state = "detective to doctor";
+    this.game_message = "Detectives Sleep!";
+    this.timer_period = 4;
+    this.counter.restart();
+  }
+
+  doctor_phase(){
+    this.game_phase = "game";
+    this.game_state = "doctor";
+    this.timer_period = 3;
+    this.counter.restart();
+  }
+
+  trans_state_doctor_ends(){
+    this.game_phase = "trans";
+    this.game_state = "night ends";
+    this.game_message = "Doctor Sleep!";
+    this.timer_period = 2;
+    this.counter.restart();
+  }
+
+  trans_state_day_begins(){
+    this.game_phase = "trans";
+    this.game_state = "day begins";
+    this.game_message ="The city wakes up to find that ";
+    this.timer_period = 4;
+    this.counter.restart();
+  }
+
+  city_phase(){
+    this.game_phase = "game";
+    this.game_state = "city";
+    this.timer_period = 3;
+    this.counter.restart();
+  }
+
+  onFinished(){
+    switch(this.game_state){
+      case "night begins": 
+        this.mafia_phase();
+        break;
+      case "mafia": 
+        this.trans_state_mafia_ends();
+        break;
+      case "mafia to detective": 
+        this.detective_phase();
+        break;
+      case "detective": 
+        this. trans_state_detective_ends();
+        break;
+      case "detective to doctor":
+        this.doctor_phase();
+        break;
+      case "doctor":
+        this.trans_state_doctor_ends();
+        break;
+      case "night ends":
+        this.trans_state_day_begins();
+        break;
+      case "day begins":
+        this.city_phase();
+        break;
+    }
   }
 
   onNotify(){
-    this.openSnackBar("Time is running, 5 seconds left!","");
+    switch(this.game_state){
+      case "mafia":
+        this.openSnackBar("Come on Mafia! Are you sure He's not a Threat? 5 seconds left!");
+        break;
+      case "detective":
+        this.openSnackBar("Come on Detective! A lot is at Stake, 5 seconds left!");
+        break;
+      case "doctor":
+        this.openSnackBar("Come on Doctor! Someone is at Risk! Is that you? 5 seconds left!");
+        break;
+      case "mafia to detective":
+        this.game_message = "Detectives Arise!";
+        break;
+      case "detective to doctor":
+        this.game_message = "Doctor Arise!";
+        break;
+      case "day begins":
+        this.game_message = this.dead_player+" is dead!";
+        break;
+    }
   }
 
   checkIsGameOver(): boolean{
@@ -151,11 +268,15 @@ export class DayNightComponent implements OnInit {
     return mafia_count>citizen_count;
   }
 
-  openSnackBar(message: string, action: string) {
-      this._snackBar.open(message, action, {
-        duration: this.timer_period*1000,
+  openSnackBar(message: string) {
+      this._snackBar.open(message, "", {
+        duration: 3000,
       });
   } 
+
+  get user(){
+    return this.userSessionsService.User;
+}
 
   get game_data(){
     return this.json_data[this.session_id];

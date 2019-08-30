@@ -20,12 +20,8 @@ def create_session(request):
             session_id = random.getrandbits(24)
             s = Session(session=session_id, state="begin")
             s.save()
-            Player(name=request.POST['name'],
-            avatar="null", 
-            role="null",
-            alive=True,
-            color="null",
-            session=s).save()
+            Player(name=request.POST['name'], alive=True,
+                   avatar="null", role="null", color="null", session=s).save()
             response = JsonResponse({'session': session_id, 'state': 'begin'})
             response.set_cookie('session', session_id)
             return response
@@ -40,12 +36,12 @@ def create_session(request):
 def join_session(request, session):
     try:
         if Session.objects.filter(session=session).count() != 0:
-            response = JsonResponse({'status': 'success'})
+            response = JsonResponse({'session': session, 'state': 'begin'})
             response.set_cookie(session)
         else:
             raise Exception('session does not exist')
     except Exception as e:
-        return json_error()
+        return json_error(e)
 
 
 def get_user(request):
@@ -68,8 +64,8 @@ def create_player(request):
         return json_error(e)
 
 
-def kill_player(request):
-    return None
+def kill_player(request, pid):
+    Player.objects.get(id=pid).delete()
 
 
 def session_change(request):
@@ -91,8 +87,8 @@ def get_all(request, session):
 def chat(request):
     try:
         if request.method == "POST":
-            s = Session.objects.get(session=request.COOKIES['session'])
-            pid = Player.objects.get(name=request.POST['name'])
+            s = request.COOKIES['session']
+            p_id = Session.objects.get(request.POST['pid'])
             message = request.POST['message']
             Chat(session=s, p_id=pid, message=message).save()
             return JsonResponse({'status': 'success'})

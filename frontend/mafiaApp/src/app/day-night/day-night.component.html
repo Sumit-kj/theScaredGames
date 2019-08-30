@@ -1,6 +1,25 @@
-<div class="div-game-mode">
-    <countdown 
-    [config]="{leftTime: 10, notify: [5]}" 
+<div class="div-game-mode" *ngIf="game_phase=='game'">
+    <div style="display: grid;grid-template-columns: 72% 28%">
+        <div>
+            <countdown #counter class="timer"
+            [config]="{leftTime: timer_period, notify: [5]}"
+            (finished)="onFinished()" 
+            (notify)="onNotify()"
+            style="color: white;font-size: 200%;display: block;text-align: center;">
+                $!m!:$!s!
+            </countdown>
+            <h1 style="color: white;text-align: center"> {{ game_state | uppercase }} </h1>
+            <app-voting *ngIf = "user.role == game_state || game_state == 'city'"></app-voting>
+        </div>  
+        <chatroom></chatroom>
+    </div>
+</div>
+<div class="div-trans-mode" *ngIf="game_phase=='trans'">
+    <h1 style="color: white;text-align: center; font-size: 500%">{{ game_state | uppercase }}</h1>
+    <countdown #countdown 
+    [config]="{leftTime: timer_period, notify: [2]}"
     (notify)="onNotify()"
-    style="color: white">$!m!:$!s!</countdown>
+    (finished)="onFinished()" 
+    style="color: white;font-size: 900%; position: relative; left: 36%">$!m!:$!s!</countdown>
+    <h1 style="color: white;text-align: center; font-size: 200%;padding: 20px;border: solid; margin: 25px;background-color: rgba(0,0,0,0.5)"> {{ game_message| uppercase }} </h1>
 </div>
