@@ -1,8 +1,14 @@
 import { AppComponent } from './../app.component';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CountdownComponent } from 'ngx-countdown';
 import { UserSessionsService } from '../user-sessions.service';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+
+export interface DialogData {
+  animal: string;
+  name: string;
+}
 
 @Component({
   selector: 'app-day-night',
@@ -121,7 +127,7 @@ export class DayNightComponent implements OnInit {
   ngOnInit() {
     this.gameStart();
   }
-  constructor(private _snackBar: MatSnackBar, private userSessionsService:UserSessionsService) { }
+  constructor(private _snackBar: MatSnackBar, private userSessionsService:UserSessionsService, public dialog: MatDialog) { }
 
   game_state : String;
   game_phase : String;
@@ -129,6 +135,8 @@ export class DayNightComponent implements OnInit {
   session_id = "1";
   timer_period = 0;
   dead_player = "player_4";
+  animal: String;
+  name: String;
 
   gameStart(): void{
     this.trans_state_night_begins();
@@ -138,13 +146,13 @@ export class DayNightComponent implements OnInit {
     this.game_phase = "trans";
     this.game_state = "night begins";
     this.game_message ="Mafias Arise!";
-    this.timer_period = 3;
+    this.timer_period = 1;
   }
 
   mafia_phase(){
     this.game_phase = "game";
     this.game_state = "mafia"; 
-    this.timer_period = 3;
+    this.timer_period = 1
     this.counter.restart();
     console.log("mafia_phase");
   }
@@ -153,14 +161,14 @@ export class DayNightComponent implements OnInit {
     this.game_phase = "trans";
     this.game_state = "mafia to detective";
     this.game_message = "Mafias Sleep!";
-    this.timer_period = 4;
+    this.timer_period = 1;
     this.counter.restart();
   }
 
   detective_phase(){
     this.game_phase = "game";
     this.game_state = "detective";
-    this.timer_period = 3;
+    this.timer_period = 1;
     this.counter.restart();
   }
 
@@ -168,14 +176,14 @@ export class DayNightComponent implements OnInit {
     this.game_phase = "trans";
     this.game_state = "detective to doctor";
     this.game_message = "Detectives Sleep!";
-    this.timer_period = 4;
+    this.timer_period = 1;
     this.counter.restart();
   }
 
   doctor_phase(){
     this.game_phase = "game";
     this.game_state = "doctor";
-    this.timer_period = 3;
+    this.timer_period = 1;
     this.counter.restart();
   }
 
@@ -183,7 +191,7 @@ export class DayNightComponent implements OnInit {
     this.game_phase = "trans";
     this.game_state = "night ends";
     this.game_message = "Doctor Sleep!";
-    this.timer_period = 2;
+    this.timer_period = 1;
     this.counter.restart();
   }
 
@@ -191,14 +199,21 @@ export class DayNightComponent implements OnInit {
     this.game_phase = "trans";
     this.game_state = "day begins";
     this.game_message ="The city wakes up to find that ";
-    this.timer_period = 4;
+    this.timer_period = 3;
     this.counter.restart();
   }
 
   city_phase(){
     this.game_phase = "game";
     this.game_state = "city";
-    this.timer_period = 3;
+    this.timer_period = 1;
+    this.counter.restart();
+  }
+
+  defence_dialog_popup(){
+    this.game_state = "defence";
+    this.openDialog();
+    this.timer_period = 60;
     this.counter.restart();
   }
 
@@ -227,6 +242,12 @@ export class DayNightComponent implements OnInit {
         break;
       case "day begins":
         this.city_phase();
+        break;
+      case "city":
+        this.defence_dialog_popup();
+        break;
+      case "defence":
+        this.dialog.closeAll();
         break;
     }
   }
@@ -274,6 +295,19 @@ export class DayNightComponent implements OnInit {
       });
   } 
 
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
+      width: '400px', height: '510px',
+      data: {name: this.name, animal: this.animal}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.animal = result;
+    });
+    console.log(dialogRef);
+  }
+
   get user(){
     return this.userSessionsService.User;
 }
@@ -281,4 +315,22 @@ export class DayNightComponent implements OnInit {
   get game_data(){
     return this.json_data[this.session_id];
   }
+}
+
+// for the dialog
+
+@Component({
+  selector: 'dialog-overview-example-dialog',
+  templateUrl: 'defence-dialog.html',
+})
+export class DialogOverviewExampleDialog {
+
+  constructor(
+    public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
 }

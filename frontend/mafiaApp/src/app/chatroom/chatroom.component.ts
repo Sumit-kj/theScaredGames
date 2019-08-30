@@ -1,5 +1,5 @@
 import {  HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { FormsModule }   from '@angular/forms';
 @Component({
   selector: 'chatroom',
@@ -12,11 +12,13 @@ export class ChatroomComponent  {
   randomKey:number;
   sentmessage=false;
   chatEnabled = false;
-  constructor(private http:HttpClient) {
-  }  
+  constructor(private http:HttpClient, el: ElementRef) {
+    http.get<any>('http://jsonplaceholder.typicode.com/posts').subscribe(response => {
+    this.results.push(response)
+  });   
 
-  
-  
+    // console.log(this.results);
+  }
   text:string;
   colorPlayer="blue";
   message=[];
@@ -38,8 +40,7 @@ export class ChatroomComponent  {
     this.text = "";
     // console.log(this.message);
     
-  }
-  
+  } 
   
 }
 

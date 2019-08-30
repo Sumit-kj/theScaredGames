@@ -18,8 +18,9 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatBadgeModule} from '@angular/material/badge'
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { FormsModule } from '@angular/forms';
-import { DayNightComponent } from './day-night/day-night.component';
+import { DayNightComponent, DialogOverviewExampleDialog } from './day-night/day-night.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 
@@ -28,7 +29,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     AppComponent,
     LoginpageComponent,
     WaitingAreaComponent,
-    
+    DialogOverviewExampleDialog,
     VotingComponent,
     
     DayNightComponent,
@@ -49,8 +50,10 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatExpansionModule,
     MatListModule,
     MatInputModule,
+    MatDialogModule,
     HttpClientModule
   ],
+  entryComponents: [DialogOverviewExampleDialog],
   providers: [],
   bootstrap: [AppComponent]
 })

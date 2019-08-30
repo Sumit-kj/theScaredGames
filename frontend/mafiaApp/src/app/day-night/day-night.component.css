@@ -1,3 +1,7 @@
 .timer {
     float: right;
 }
+
+::ng-deep  .timer{
+    max-width: 100px;;
+}
