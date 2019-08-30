@@ -1,7 +1,7 @@
 import random
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
-
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 from main.models import Session, Chat, Player
 
@@ -13,7 +13,7 @@ def get_role(request):
     roles.remove(role)
     return JsonResponse({'role': role})
 
-
+@csrf_exempt
 def create_session(request):
     try:
         if request.method == 'POST':
@@ -41,7 +41,7 @@ def join_session(request, session):
         else:
             raise Exception('session does not exist')
     except Exception as e:
-        return json_error()
+        return json_error(e)
 
 
 def get_user(request):
@@ -83,14 +83,14 @@ def get_all(request, session):
         response.append(q)
     return JsonResponse(response, safe=False)
 
-
+@csrf_exempt
 def chat(request):
     try:
         if request.method == "POST":
             s = request.COOKIES['session']
             p_id = Session.objects.get(request.POST['pid'])
             message = request.POST['message']
-            Chat(session=s, p_id=p_id, message=message).save()
+            Chat(session=s, p_id=pid, message=message).save()
             return JsonResponse({'status': 'success'})
         else:
             raise Exception('Please send a post message')

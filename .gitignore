@@ -5,3 +5,4 @@ main/__pycache__/
 main/migrations/__pycache__/
 scaredgames/__pycache__/settings.cpython-37.pyc
 scaredgames/__pycache__/urls.cpython-37.pyc
+db.sqlite3

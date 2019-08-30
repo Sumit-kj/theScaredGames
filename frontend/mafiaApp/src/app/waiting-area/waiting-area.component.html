@@ -43,7 +43,7 @@
                     </mat-card-content>
                 </mat-card>
                 <div class="role">
-                    <img class="role-card" src="https://media.istockphoto.com/photos/playing-card-king-of-spades-picture-id458126511?k=6&m=458126511&s=612x612&w=0&h=x0PjZz2iHWp20B02idcOE_UBoOh2XGkQoUiucxcHalg=" />
+                    <img class="role-card" [src] ="cardImage" />
                     <div class="buttons">
                         <button class="full-width-button" (click)="beginGame()" id="go" mat-raised-button>Go!</button>
                         <button class="full-width-button" id="leave" mat-raised-button>Leave :(</button>
