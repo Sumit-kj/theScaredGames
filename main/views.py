@@ -13,6 +13,7 @@ def get_role(request):
     roles.remove(role)
     return JsonResponse({'role': role})
 
+
 @csrf_exempt
 def create_session(request):
     try:
