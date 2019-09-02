@@ -21,6 +21,7 @@ import { FormsModule } from '@angular/forms';
 import { DayNightComponent, DialogOverviewExampleDialog } from './day-night/day-night.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
+import {AngularWebStorageModule} from 'angular-web-storage'
 
 
 
@@ -31,7 +32,6 @@ import { MatDialogModule } from '@angular/material/dialog';
     WaitingAreaComponent,
     DialogOverviewExampleDialog,
     VotingComponent,
-    
     DayNightComponent,
     ChatroomComponent,
   ],
@@ -51,7 +51,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatListModule,
     MatInputModule,
     MatDialogModule,
-    HttpClientModule
+    HttpClientModule,
+    AngularWebStorageModule
   ],
   entryComponents: [DialogOverviewExampleDialog],
   providers: [],
