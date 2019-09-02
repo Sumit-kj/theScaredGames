@@ -15,6 +15,7 @@ export class LoginpageComponent {
   url:string ="http://localhost:8000/create_session/"; 
   startGame():void {
     this.userService.userName = this.username;
+    // console.log(this.userService.userName);
     this.service.startGame(this.username);
 }
 }
