@@ -11,7 +11,7 @@
             <h1 style="color: white;text-align: center"> {{ game_state | uppercase }} </h1>
             <app-voting *ngIf = "user.role == game_state || game_state == 'city'"></app-voting>
         </div>  
-        <chatroom></chatroom>
+        <chatroom *ngIf = "user.role == game_state || game_state == 'city'"></chatroom>
     </div>
 </div>
 <div class="div-trans-mode" *ngIf="game_phase=='trans'">
