@@ -1,3 +1,4 @@
+import { timer } from 'rxjs';
 import { AppComponent } from './../app.component';
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -132,6 +133,7 @@ export class DayNightComponent implements OnInit {
   game_state : String;
   game_phase : String;
   game_message : String;
+  game_defence : String = "city arises";
   session_id = "1";
   timer_period = 0;
   dead_player = "player_4";
@@ -211,10 +213,37 @@ export class DayNightComponent implements OnInit {
   }
 
   defence_dialog_popup(){
-    this.game_state = "defence";
-    this.openDialog();
-    this.timer_period = 60;
+    // this.game_state = "defence";
+    if(this.game_defence == "city arises"){
+      this.game_defence = "city defends";
+      this.openDialog();
+      this.timer_period = 2;
+      this.counter.restart();
+      return;
+    }
+    else if(this.game_defence = "city_defends"){
+      this.timer_period = 3;
+      this.game_defence = "city judges";
+      this.counter.restart();
+      return;
+    }
+    else{
+      this.timer_period = 4;
+      this.counter.restart();
+    }
+  }
+
+  trans_state_city_judgement(){
+    this.game_phase = "trans";
+    this.game_state = "city judgement";
+    this.timer_period = 4;
+    this.game_message = "The city has decided to execute "+this.dead_player+"!";
     this.counter.restart();
+  }
+
+  gameEnd() {
+    this.game_state = "game over";
+    this.game_message = this.checkIsGameOver()+" Wins!";
   }
 
   onFinished(){
@@ -244,10 +273,21 @@ export class DayNightComponent implements OnInit {
         this.city_phase();
         break;
       case "city":
-        this.defence_dialog_popup();
+        if(this.game_defence == "city arises")
+          this.defence_dialog_popup();
+        else if(this.game_defence == "city defends"){
+          this.dialog.closeAll();
+          this.defence_dialog_popup();
+        }
+        else{
+          this.trans_state_city_judgement();
+        }
         break;
-      case "defence":
-        this.dialog.closeAll();
+      case "city judgement":
+        if(this.checkIsGameOver() == "None")
+          this.gameStart();
+        else
+          this.gameEnd();
         break;
     }
   }
@@ -275,7 +315,7 @@ export class DayNightComponent implements OnInit {
     }
   }
 
-  checkIsGameOver(): boolean{
+  checkIsGameOver(): String{
     var mafia_count = 0;
     var citizen_count = 0;
     this.game_data.forEach(element => {
@@ -286,7 +326,13 @@ export class DayNightComponent implements OnInit {
           citizen_count++;
       }
     });
-    return mafia_count>citizen_count;
+    // return mafia_count>citizen_count;
+    if(mafia_count>citizen_count)
+      return "MAFIA";
+    if(mafia_count == 0)
+      return "CITY";
+    // return "None";
+    return "MAFIA";
   }
 
   openSnackBar(message: string) {
