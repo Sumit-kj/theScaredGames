@@ -17,9 +17,9 @@ class Player(models.Model):
 
 
 class Vote(models.Model):
-    id = models.AutoField()
+    # id = models.AutoField()
     p = models.ForeignKey(Player, on_delete=models.CASCADE)
-    voted = models.ForeignKey(Player, on_delete=models.CASCADE)
+    voted = models.TextField()
 
 
 class Chat(models.Model):

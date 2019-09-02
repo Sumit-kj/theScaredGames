@@ -21,13 +21,12 @@ export class UserSessionsService {
     this.theUser.role = role;
     this.theUser.alive = alive;
   }
-  setUserRole():void {
-    this.http.get(this.url).subscribe(role => {
-      console.log(role);
-    });
+  setUserRole(roleName):void {
+    this.theUser.role = roleName;
+    console.log(this.theUser.role); 
   }
   get User(): User {
-    this.theUser.username = "player_7";
+    this.theUser.username = "player_7"; 
     this.userProperties("","#8B008B","detective",true);
     return this.theUser;
   }

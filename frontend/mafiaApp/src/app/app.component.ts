@@ -1,6 +1,6 @@
 import { User } from './user';
 import { Component, OnInit } from '@angular/core';
-import { SyncService } from './sync.service';
+// import { SyncService } from './sync.service';
 
 @Component({
   selector: 'app-root',
@@ -11,12 +11,12 @@ export class AppComponent implements OnInit {
   title = 'mafiaApp';
   theUser:User = new User();
 
-  constructor(private sync:SyncService){
+  constructor(){
 
   }
   ngOnInit(): void {
   }
   sendMessage(): void {
-    this.sync.sendMessage('hello');
+    // this.sync.sendMessage('hello');
   }
 }
