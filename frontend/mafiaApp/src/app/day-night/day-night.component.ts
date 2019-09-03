@@ -6,6 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CountdownComponent } from 'ngx-countdown';
 import { UserSessionsService } from '../user-sessions.service';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { SessionStorageService } from 'angular-web-storage';
 
 export interface DialogData {
   animal: string;
@@ -19,6 +20,7 @@ export interface DialogData {
 })
 export class DayNightComponent implements OnInit {
 
+  role;
   @ViewChild('countdown',{static:true}) counter: CountdownComponent = null ;
 
   json_data = {
@@ -140,9 +142,11 @@ export class DayNightComponent implements OnInit {
   dead_player = "player_4";
   animal: String;
   name: String;
-
+  
   gameStart(): void{
     this.trans_state_night_begins();
+    this.role=this.userSessionsService.User.role;
+    console.log(this.role);
   }
 
   trans_state_night_begins(){
@@ -157,7 +161,7 @@ export class DayNightComponent implements OnInit {
     this.game_state = "mafia"; 
     this.timer_period = 1
     this.counter.restart();
-    console.log("mafia_phase");
+    // console.log("mafia_phase");
   }
 
   trans_state_mafia_ends(){
@@ -209,7 +213,7 @@ export class DayNightComponent implements OnInit {
   city_phase(){
     this.game_phase = "game";
     this.game_state = "city";
-    this.timer_period = 1;
+    this.timer_period = 100;
     this.counter.restart();
   }
 
@@ -332,7 +336,7 @@ export class DayNightComponent implements OnInit {
       return "MAFIA";
     if(mafia_count == 0)
       return "CITY";
-    // return "None";
+  
     return "MAFIA";
   }
 
@@ -347,10 +351,11 @@ export class DayNightComponent implements OnInit {
       width: '400px', height: '510px',
       // data: {name: this.name, animal: this.animal}
     });
-    console.log(this.user.username);
-
+    
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      // console.log('The dialog was closed');
+      // console.log(this.user.username);
+      // console.log(this.user.role);
       // this.animal = result;
     });
     console.log(dialogRef);
@@ -373,12 +378,14 @@ export class DayNightComponent implements OnInit {
 })
 export class DialogOverviewExampleDialog {
 
-  constructor(
-    public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,private user:UserSessionsService,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+  constructor(private storage:SessionStorageService,
+    public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+    }
 
   onNoClick(): void {
     this.dialogRef.close();
+    console.log(this.storage.get('session'));
   }
 
 }
