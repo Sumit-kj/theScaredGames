@@ -39,13 +39,17 @@ export class WaitingAreaComponent implements OnInit {
   i = 0;
   iterCount =0;
   role;
+  color;
   ngOnInit() {
-    this.user.username = this.userService.User.username; 
+    
     this.user.avatar = "https://api.adorable.io/avatars/100/abe@adorable.png";    
     this.setCards(50,0);
     this.setCards(100,0);
+    this.user.username = this.userService.userName; 
+     console.log(this.user.username);
     this.roleSetter.getRole().subscribe(response=>{
       this.role = response['role'];
+      this.color = response['color'];
     });
   }
 
@@ -56,6 +60,8 @@ export class WaitingAreaComponent implements OnInit {
     element.classList.add("selected");
     this.previousElement = element;
     this.userService.setUserRole(this.role);
+    this.roleSetter.setPlayer({'name':this.user.username,'avatar':this.user.avatar,'role':this.role,'alive':'True' ,'color':this.color});
+    this.userService.userProperties(this.user.avatar,this.role,'true',this.color);
   }
   beginGame():void { 
   }
