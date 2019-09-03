@@ -17,7 +17,8 @@ export class SyncService {
   constructor(private http:HttpClient ,private storage:SessionStorageService ,private user: UserSessionsService) {
     this.messageSocket = new WebSocket(this.url);
     this.messageSocket.onmessage = (event)=> {
-      console.log('message socket says:',event);
+      console.info(event);
+      this.messageSource.next(JSON.parse(event['data']));
     }
   }
   get VotesSource(): Observable<JSON> {
@@ -41,8 +42,8 @@ export class SyncService {
       );
   }
   
-  sendMessage(message): void {
-    this.messageSocket.send(JSON.stringify({'message':'sent this message'}));
+  sendMessage(username, message): void {
+    this.messageSocket.send(JSON.stringify({'type':'chat', 'name': username,'message':message}));
   }
   vote(){}
   kill(){}
