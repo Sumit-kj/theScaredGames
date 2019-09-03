@@ -1,3 +1,4 @@
+import { User } from './../user';
 import { timer } from 'rxjs';
 import { AppComponent } from './../app.component';
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
@@ -344,12 +345,13 @@ export class DayNightComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
       width: '400px', height: '510px',
-      data: {name: this.name, animal: this.animal}
+      // data: {name: this.name, animal: this.animal}
     });
+    console.log(this.user.username);
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      this.animal = result;
+      // this.animal = result;
     });
     console.log(dialogRef);
   }
@@ -372,7 +374,7 @@ export class DayNightComponent implements OnInit {
 export class DialogOverviewExampleDialog {
 
   constructor(
-    public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
+    public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,private user:UserSessionsService,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 
   onNoClick(): void {

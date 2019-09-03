@@ -44,10 +44,9 @@
                 </mat-card>
                 <div class="role">
                     <img class="role-card" [src] ="cardImage" />
-                    <!-- <div class="buttons">
-                        <button class="full-width-button" (click)="beginGame()" id="go" mat-raised-button>Go!</button>
-                        <button class="full-width-button" id="leave" mat-raised-button>Leave :(</button>
-                    </div> -->
+                    <div class="buttons">
+                        <button class="full-width-button" routerLink="/game" mat-raised-button>Play</button>
+                    </div>
                     <div *ngIf ="roleVisibility">
                     <p>You are a <span>{{role}}</span></p>
                     </div>
