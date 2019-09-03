@@ -22,15 +22,15 @@ export class ChatroomComponent implements OnInit {
     },3);
   }
   text:string;
-  colorPlayer="blue";
   message=[];
   playerName:String=this.user.User.username;
+  colorPlayer=this.user.User.color;
   sendMessage(){ 
-    console.log(this.playerName);
-    var msgjson = this.text;
-    if(msgjson=="")
-      return;
-      this.sentmessage = true;
+  console.log(this.playerName);
+  var msgjson = this.text;
+  if(msgjson=="")
+    return;
+  this.sentmessage = true;
       // console.log(this.text);
     var jsonf = {'name':this.playerName,'message':msgjson};
     this.http.post<any>(this.url,jsonf,{'responseType':'json'}).subscribe(response =>{
