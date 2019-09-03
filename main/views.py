@@ -6,12 +6,15 @@ from django.views.decorators.csrf import csrf_exempt
 from main.models import Session, Chat, Player
 
 roles = ['mafia', 'mafia', 'mafia', 'doctor', 'detective', 'detective', 'citizen', 'citizen', 'citizen', 'citizen']
+colours =['#0000cd', '#F08080', '#00ff00', '#40e0d0', '#7B68EE', '#FF00ff', '#8B008B', '#FF1493', '#DAA520', '#ccaadd']
 
 
 def get_role(request):
     role = random.choice(roles)
     roles.remove(role)
-    return JsonResponse({'role': role})
+    color = random.choice(colours)
+    colours.remove(color)
+    return JsonResponse({'role': role,'color':color})
 
 
 @csrf_exempt
@@ -48,7 +51,7 @@ def join_session(request, session):
 def get_user(request):
     return None
 
-
+@csrf_exempt
 def create_player(request):
     try:
         if request.method == 'POST':

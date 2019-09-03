@@ -1,3 +1,4 @@
+import { UserSessionsService } from './user-sessions.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
@@ -13,7 +14,7 @@ export class SyncService {
   urlhttp:string = "http://localhost:8000/";
   messageSocket:WebSocket;
   
-  constructor(private http:HttpClient ,private storage:SessionStorageService) {
+  constructor(private http:HttpClient ,private storage:SessionStorageService ,private user: UserSessionsService) {
     this.messageSocket = new WebSocket(this.url);
     this.messageSocket.onmessage = (event)=> {
       console.log('message socket says:',event);
@@ -56,8 +57,17 @@ export class SyncService {
     return role;
   } 
   stateChange(){}
-  setPlayer(){
+  setPlayer(playerDetails){
     var urlplayer =this.urlhttp+"add_player/";
-
+    var json_player=new FormData();
+    json_player.append('name',playerDetails['name']);
+    json_player.append('avatar',playerDetails['avatar']);
+    json_player.append('alive',playerDetails['alive']);
+    json_player.append('color',playerDetails['color']);
+    json_player.append('role',playerDetails['role']);
+    console.log(playerDetails);
+    this.http.post(urlplayer,json_player,{'responseType':'json'}).subscribe(response=>
+      { console.log(response);} 
+     );
   } 
 }

@@ -26,8 +26,8 @@ export class UserSessionsService {
     console.log(this.theUser.role); 
   }
   get User(): User {
-    this.theUser.username = "player_7"; 
-    this.userProperties("","#8B008B","detective",true);
+    // this.theUser.username = "player_7"; 
+    // this.userProperties("","#8B008B","detective",true);
     return this.theUser;
   }
   get userName(): string {
