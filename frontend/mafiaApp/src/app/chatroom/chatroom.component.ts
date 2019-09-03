@@ -2,41 +2,42 @@ import { UserSessionsService } from './../user-sessions.service';
 import {  HttpClient } from '@angular/common/http';
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { FormsModule }   from '@angular/forms';
+import { SyncService } from '../sync.service';
 @Component({
   selector: 'chatroom',
   templateUrl: './chatroom.component.html',
   styleUrls: ['./chatroom.component.css']
 })
 export class ChatroomComponent implements OnInit {
-  url ="http://localhost:8000/chat/send/";
   results:any[]=[];
   randomKey:number;
   sentmessage=false;
   chatEnabled = false;
-
-  ngOnInit(){
-     
-  }
-  constructor(private http:HttpClient, el: ElementRef ,private user:UserSessionsService) {
-    setInterval(function(){
-    },3);
-  }
   text:string;
   colorPlayer="blue";
   message=[];
   playerName:String=this.user.User.username;
+
+  ngOnInit(){
+     
+  }
+  constructor(private sync:SyncService,private user:UserSessionsService) {
+    this.sync.MessageSource.subscribe(message => {
+      console.log(message)
+      this.sentmessage = true;
+      this.message.unshift(message)
+    });
+    setInterval(function(){
+    },3);
+  }
+ 
   sendMessage(){ 
     console.log(this.playerName);
     var msgjson = this.text;
     if(msgjson=="")
       return;
-      this.sentmessage = true;
       // console.log(this.text);
-    var jsonf = {'name':this.playerName,'message':msgjson};
-    this.http.post<any>(this.url,jsonf,{'responseType':'json'}).subscribe(response =>{
-      console.log(response.status);
-    });
-    this.message.unshift(jsonf);
+    this.sync.sendMessage('kartik', msgjson)
     this.text = "";
     // console.log(this.message);
     
