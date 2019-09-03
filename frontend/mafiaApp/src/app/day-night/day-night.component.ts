@@ -4,7 +4,7 @@ import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CountdownComponent } from 'ngx-countdown';
 import { UserSessionsService } from '../user-sessions.service';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export interface DialogData {
   animal: string;
@@ -22,7 +22,6 @@ export class DayNightComponent implements OnInit {
 
   json_data = {
     "1":[
-        
         {
             "name":"player_1",
             "role":"mafia",
