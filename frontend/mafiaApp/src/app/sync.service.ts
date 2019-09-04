@@ -30,6 +30,13 @@ export class SyncService {
   get MessageSource(): Observable<JSON> {
     return this.messageSource.asObservable();
   }
+
+  getAlive(name){
+    var urlalive = this.urlhttp+"status/";
+    var json_name = new FormData();
+    json_name.append('name',name);
+    return this.http.post(urlalive,json_name,{'responseType':'json'});
+  }
   startGame(name): void {
     //ankit do this
     var urlgame = this.urlhttp+"create_session/";
