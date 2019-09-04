@@ -30,16 +30,12 @@ export class SyncService {
   get MessageSource(): Observable<JSON> {
     return this.messageSource.asObservable();
   }
-  startGame(name): void {
+  startGame(name): Promise<any> {
     //ankit do this
     var urlgame = this.urlhttp+"create_session/";
      var json_name = new FormData();
     json_name.append('name',name);
-    this.http.post(urlgame,json_name,{'responseType':'json'}).subscribe(response=>
-       {  this.storage.set('session', response['session']);
-          console.log(this.storage.get('session'));
-        console.log(response);} 
-      );
+    return this.http.post(urlgame,json_name,{'responseType':'json'}).toPromise();
   }
   
   sendMessage(username, message): void {
@@ -51,13 +47,14 @@ export class SyncService {
   endGame(){}
   getMessages(){}
   getPlayers(){}
+
   getRole(){
-    var role;
-    var urlrole = this.urlhttp+"role/";
-    return this.http.get(urlrole,{'responseType':'json'})
-    return role;
+    var urlrole = this.urlhttp+"role/"+this.storage.get('session');
+    return this.http.get(urlrole,{'responseType':'json'});
   } 
+
   stateChange(){}
+
   setPlayer(playerDetails){
     var urlplayer =this.urlhttp+"add_player/";
     var json_player=new FormData();
