@@ -1,14 +1,20 @@
 <div class="welcome-card">
     <h1 class="title">Scared Games</h1>
     <mat-form-field class="user-entry">
-        <input matInput placeholder="username" #user [(ngModel)]="username" required>
+        <input matInput placeholder="username" autocomplete="off" #user [(ngModel)]="username" required>
         <mat-error *ngIf="!user.valid || user.value == '' || user.value == ' '">Please enter a valid username</mat-error>
     </mat-form-field>
     <br>
-    <button mat-raised-button color="primary" routerLink="lobby" 
-    (click)="startGame()" [disabled]="this.username == '' || this.username == ' '">Play</button>
+    <button mat-raised-button color="primary" [routerLink]="isAlready? '': 'lobby'"
+    (click)="startGame()" [disabled]="this.username == '' || this.username == ' ' || !this.session== ''">Start a Game</button>
+    <button mat-raised-button color="#fff" 
+    (click)="joinGame()" [disabled]="this.username == '' || this.username == ' '">Join a Game</button><br>
+    <mat-form-field class="session-entry" *ngIf="isJoining">
+        <input matInput placeholder="session id" autocomplete="off" #sessionId [(ngModel)]="session" required>
+        <mat-error *ngIf="!sessionId.valid || sessionId.value == '' || userId.value == ' '">Please enter a valid session id</mat-error>
+    </mat-form-field><br>
     <button mat-raised-button color="#fff" routerLink="lobby" 
-    (click)="joinGame()" [disabled]="this.username == '' || this.username == ' '">Join a Game</button>
+    (click)="enterGame()" *ngIf="this.session!='' && isJoining">Enter the Game</button><br>
     <mat-expansion-panel>
         <mat-expansion-panel-header>
             <mat-panel-title>
