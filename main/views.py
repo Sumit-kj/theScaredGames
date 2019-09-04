@@ -48,12 +48,19 @@ def create_session(request):
         return json_error(e)
     return None
 
-
-def join_session(request, session):
+@csrf_exempt
+def join_session(request,session):
     try:
-        if Session.objects.filter(session=session).count() != 0:
+        player_session = Session.objects.get(session=session)
+        if Player.objects.get(session=player_session,name=request.POST['name']) is not None:
+            raise Exception('Player Already Exists!')
+            print("here")
+        elif Session.objects.get(session=str(session)) is not None:
             response = JsonResponse({'session': session, 'state': 'begin'})
-            response.set_cookie(session)
+            Player(name=request.POST['name'], alive=True,
+                   avatar="null", role="null", color="null", session=Session.objects.get(session=session)).save()
+            response.set_cookie('session', session)
+            return response
         else:
             raise Exception('session does not exist')
     except Exception as e:
@@ -68,7 +75,7 @@ def get_user(request):
 def create_player(request):
     try:
         if request.method == 'POST':
-            p = Player.objects.get(name=request.POST['name'])
+            p = Player.objects.get(name=request.POST['name'],session=request.POST['session'])
             p.alive = request.POST['alive']
             p.avatar = request.POST['avatar']
             p.color = request.POST['color']
@@ -110,3 +117,5 @@ def player_status(request, name):
         return JsonResponse({'alive': 'true'})
     return JsonResponse({'alive': 'false'})
 
+def json_error(message):
+    return JsonResponse({'status': 'failed', 'error': str(message)})

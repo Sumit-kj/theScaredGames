@@ -25,7 +25,6 @@ export class DayNightComponent implements OnInit {
 
   json_data = {
     "1":[
-        
         {
             "name":"player_1",
             "role":"mafia",

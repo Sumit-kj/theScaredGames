@@ -19,6 +19,6 @@ mat-expansion-panel {
     margin-top: 10px;
     width: 400px;
 }
-#mat-input-0 {
+#mat-input-0,#mat-input-1 {
     color: white;
 }

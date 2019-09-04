@@ -41,7 +41,7 @@ export class SyncService {
   startGame(name): Promise<any> {
     //ankit do this
     var urlgame = this.urlhttp+"create_session/";
-     var json_name = new FormData();
+    var json_name = new FormData();
     json_name.append('name',name);
     return this.http.post(urlgame,json_name,{'responseType':'json'}).toPromise();
   }
@@ -71,9 +71,28 @@ export class SyncService {
     json_player.append('alive',playerDetails['alive']);
     json_player.append('color',playerDetails['color']);
     json_player.append('role',playerDetails['role']);
-    console.log(playerDetails);
+    json_player.append('session',this.storage.get('session'));
+    console.log(json_player,this.storage.get('session'));
     this.http.post(urlplayer,json_player,{'responseType':'json'}).subscribe(response=>
       { console.log(response);} 
      );
   } 
+  joinGame(name,sessionId):boolean{
+    return this.checkIfPLayerExists(name,sessionId);
+  }
+
+  checkIfPLayerExists(name,sessionId):boolean{
+    var urlgame =this.urlhttp+"join_session/"+sessionId+"/";
+    var alreadyExists = false;
+    var json_name = new FormData();
+    json_name.append('name',name);
+    this.http.post(urlgame,json_name,{'responseType':'json'}).subscribe(response=>
+       {  this.storage.set('session', response['session']);
+          console.log(this.storage.get('session'));
+          if(response['error']=="Player Already Exists!")
+            return true;
+      } 
+    );
+    return false;
+  }
 }

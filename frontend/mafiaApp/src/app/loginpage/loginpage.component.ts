@@ -11,6 +11,9 @@ import { Router } from '@angular/router';
 })
 export class LoginpageComponent {
   username:string = "";
+  session:string = "";
+  isAlready:boolean = true;
+  isJoining:boolean = false;
   constructor(private userService:UserSessionsService ,
     private service:SyncService,
     private storage:SessionStorageService,
@@ -30,4 +33,13 @@ export class LoginpageComponent {
         console.error(err," happened");
       });
 }
+
+  joinGame():void{
+    this.isJoining = true;
+  }
+
+  enterGame():void{
+    this.userService.userName = this.username;
+    this.isAlready = this.service.joinGame(this.username,this.session);
+  }
 }
