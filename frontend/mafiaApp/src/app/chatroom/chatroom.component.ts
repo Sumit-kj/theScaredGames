@@ -14,7 +14,8 @@ export class ChatroomComponent implements OnInit {
   sentmessage=false;
   chatEnabled = false;
   text:string;
-  colorPlayer="blue";
+  colorPlayer=this.user.User.color;
+  
   message=[];
   playerName:String=this.user.User.username;
 
@@ -36,11 +37,9 @@ export class ChatroomComponent implements OnInit {
     var msgjson = this.text;
     if(msgjson=="")
       return;
-      // console.log(this.text);
-    this.sync.sendMessage('kartik', msgjson)
-    this.text = "";
-    // console.log(this.message);
-    
+    this.sync.sendMessage(this.playerName, msgjson)
+    this.text = "";   
+    console.log(this.user.User.color);
   } 
   
 }

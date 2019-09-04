@@ -5,9 +5,9 @@
         <mat-error *ngIf="!user.valid || user.value == '' || user.value == ' '">Please enter a valid username</mat-error>
     </mat-form-field>
     <br>
-    <button mat-raised-button color="primary" [routerLink]="false ? 'lobby': ''" 
+    <button mat-raised-button color="primary" [routerLink]="false ? 'lobby': ''"
     (click)="startGame()" [disabled]="this.username == '' || this.username == ' '">Play</button>
-    <button mat-raised-button color="#fff" routerLink="lobby" 
+    <button mat-raised-button color="#fff" routerLink="lobby"
     (click)="joinGame()" [disabled]="this.username == '' || this.username == ' '">Join a Game</button>
     <mat-expansion-panel>
         <mat-expansion-panel-header>
