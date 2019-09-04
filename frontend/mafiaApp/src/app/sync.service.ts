@@ -17,7 +17,8 @@ export class SyncService {
   constructor(private http:HttpClient ,private storage:SessionStorageService ,private user: UserSessionsService) {
     this.messageSocket = new WebSocket(this.url);
     this.messageSocket.onmessage = (event)=> {
-      console.log('message socket says:',event);
+      console.info(event);
+      this.messageSource.next(JSON.parse(event['data']));
     }
   }
   get VotesSource(): Observable<JSON> {
@@ -29,20 +30,16 @@ export class SyncService {
   get MessageSource(): Observable<JSON> {
     return this.messageSource.asObservable();
   }
-  startGame(name): void {
+  startGame(name): Promise<any> {
     //ankit do this
     var urlgame = this.urlhttp+"create_session/";
     var json_name = new FormData();
     json_name.append('name',name);
-    this.http.post(urlgame,json_name,{'responseType':'json'}).subscribe(response=>
-       {  this.storage.set('session', response['session']);
-          console.log(this.storage.get('session'));
-        console.log(response);} 
-      );
+    return this.http.post(urlgame,json_name,{'responseType':'json'}).toPromise();
   }
   
-  sendMessage(message): void {
-    this.messageSocket.send(JSON.stringify({'message':'sent this message'}));
+  sendMessage(username, message): void {
+    this.messageSocket.send(JSON.stringify({'type':'chat', 'name': username,'message':message}));
   }
   vote(){}
   kill(){}
@@ -50,13 +47,14 @@ export class SyncService {
   endGame(){}
   getMessages(){}
   getPlayers(){}
+
   getRole(){
-    var role;
-    var urlrole = this.urlhttp+"role/";
-    return this.http.get(urlrole,{'responseType':'json'})
-    return role;
+    var urlrole = this.urlhttp+"role/"+this.storage.get('session');
+    return this.http.get(urlrole,{'responseType':'json'});
   } 
+
   stateChange(){}
+
   setPlayer(playerDetails){
     var urlplayer =this.urlhttp+"add_player/";
     var json_player=new FormData();

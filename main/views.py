@@ -5,22 +5,35 @@ from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 from main.models import Session, Chat, Player
 
-roles = ['mafia', 'mafia', 'mafia', 'doctor', 'detective', 'detective', 'citizen', 'citizen', 'citizen', 'citizen']
-colours =['#0000cd', '#F08080', '#00ff00', '#40e0d0', '#7B68EE', '#FF00ff', '#8B008B', '#FF1493', '#DAA520', '#ccaadd']
+sessions = {}
 
 
-def get_role(request):
-    role = random.choice(roles)
-    roles.remove(role)
-    color = random.choice(colours)
-    colours.remove(color)
-    return JsonResponse({'role': role,'color':color})
+def get_role(request, session):
+    s = int(session)
+    try:
+        if len(sessions[s]['roles']) == 0:
+            raise Exception('The room is full. Please join another session')
+        role = random.choice(sessions[s]['roles'])
+        sessions[s]['roles'].remove(role)
+        color = random.choice(sessions[s]['colours'])
+        sessions[s]['colours'].remove(color)
+        return JsonResponse({'role': role, 'color': color})
+    except Exception as e:
+        return json_error(e)
+
 
 @csrf_exempt
 def create_session(request):
     try:
         if request.method == 'POST':
             session_id = random.getrandbits(24)
+            sessions[session_id] = {
+                'roles': ['mafia', 'mafia', 'mafia', 'doctor', 'detective', 'detective',
+                          'citizen', 'citizen', 'citizen', 'citizen'],
+                'colours': ['#0000cd', '#F08080', '#00ff00', '#40e0d0', '#7B68EE', '#FF00ff', '#8B008B',
+                            '#FF1493', '#DAA520', '#ccaadd']
+            }
+            print(sessions)
             s = Session(session=session_id, state="begin")
             s.save()
             Player(name=request.POST['name'], alive=True,
@@ -56,6 +69,7 @@ def join_session(request,session):
 
 def get_user(request):
     return None
+
 
 @csrf_exempt
 def create_player(request):
@@ -93,24 +107,15 @@ def get_all(request, session):
         response.append(q)
     return JsonResponse(response, safe=False)
 
-@csrf_exempt
-def chat(request):
-    try:
-        if request.method == "POST":
-            s = request.COOKIES['session']
-            p_id = Session.objects.get(request.POST['pid'])
-            message = request.POST['message']
-            Chat(session=s, p_id=pid, message=message).save()
-            return JsonResponse({'status': 'success'})
-        else:
-            raise Exception('Please send a post message')
-    except Exception as e:
-        return json_error(e)
+
+def json_error(message):
+    return JsonResponse({'status': 'failed', 'error': message})
 
 
-def get_chat(request):
-    pass
-
+def player_status(request, name):
+    if Player.objects.get(name=name).alive:
+        return JsonResponse({'alive': 'true'})
+    return JsonResponse({'alive': 'false'})
 
 def json_error(message):
     return JsonResponse({'status': 'failed', 'error': str(message)})

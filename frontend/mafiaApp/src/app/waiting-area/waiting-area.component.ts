@@ -61,7 +61,7 @@ export class WaitingAreaComponent implements OnInit {
     this.previousElement = element;
     this.userService.setUserRole(this.role);
     this.roleSetter.setPlayer({'name':this.user.username,'avatar':this.user.avatar,'role':this.role,'alive':'True' ,'color':this.color});
-    this.userService.userProperties(this.user.avatar,this.role,'true',this.color);
+    this.userService.userProperties(this.user.avatar,this.color,this.role,true);
   }
   beginGame():void { 
   }
