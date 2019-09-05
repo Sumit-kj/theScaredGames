@@ -6,9 +6,12 @@
         <mat-card-content>
             <mat-list>
                 <h3 mat-subheader>In Lobby</h3>
-                <mat-list-item><img src="{{user.avatar}}" class="circleImage">{{user.username}}<i class="material-icons tickmark">
+                <mat-list-item><img src="{{user.avatar}}" class="circleImage">{{user.username}}<i *ngIf="playerState=='Waiting for other Players'" class="material-icons tickmark">
                     done
                     </i></mat-list-item>
+                <mat-list-item *ngFor="let player of readyArray">
+                    <img src="{{player.avatar}}" class="circleImage">{{player.name}} <i class="material-icons tickmark">done</i>
+                </mat-list-item>
 
                 <!-- <mat-list-item><img src="https://api.adorable.io/avatars/100/ab@adorable.png" class="circleImage">Player2</mat-list-item>
                 <mat-list-item><img src="https://api.adorable.io/avatars/100/abott@adorable.png" class="circleImage">Player3</mat-list-item>

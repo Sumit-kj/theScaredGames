@@ -12,6 +12,7 @@ import { timer } from 'rxjs';
 })
 
 export class WaitingAreaComponent implements OnInit {
+  readyArray=[];
   roleVisibility = false;
   user:User = new User();
   visibleLink=false;
