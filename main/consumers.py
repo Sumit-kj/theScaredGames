@@ -1,6 +1,6 @@
 import random
 from asgiref.sync import async_to_sync
-from main.models import Chat, Session, Player, Vote
+from main.models import Player, Vote
 from channels.generic.websocket import WebsocketConsumer
 import json
 
@@ -48,6 +48,7 @@ class ScaredGamesConsumer(WebsocketConsumer):
 
 
 class LobbyConsumer(WebsocketConsumer):
+
     def connect(self):
         self.room = self.scope['url_route']['kwargs']['room']
         self.ready_players = []
@@ -59,11 +60,16 @@ class LobbyConsumer(WebsocketConsumer):
 
     def receive(self, text_data=None, bytes_data=None):
         content = json.loads(text_data)
-        print(content)
-        async_to_sync(self.channel_layer.group_send)(
-            self.room,
-            {'type': 'lobby.read', 'name': content['username']}
-        )
+        if content['type'] == 'player_join':
+            async_to_sync(self.channel_layer.group_send)(
+                self.room,
+                {'type': 'lobby.join', 'name': content['username']},
+            )
+        elif content['type'] == 'ready':
+            async_to_sync(self.channel_layer.group_send)(
+                self.room,
+                {'type': 'lobby.read', 'name': content['username']},
+            )
 
     def disconnect(self, code):
         async_to_sync(self.channel_layer.group_discard)(
@@ -80,5 +86,12 @@ class LobbyConsumer(WebsocketConsumer):
             ))
         else:
             self.send(text_data=json.dumps({
-                'ready': event['name']
+                'type': 'ready',
+                'ready': event['name'],
             }))
+
+    def lobby_join(self, event):
+        self.send(text_data=json.dumps({
+            'type': 'join',
+            'name': event['name'],
+        }))
