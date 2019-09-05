@@ -6,7 +6,10 @@
         <mat-card-content>
             <mat-list>
                 <h3 mat-subheader>In Lobby</h3>
-                <mat-list-item><img src="{{user.avatar}}" class="circleImage">{{user.username}}</mat-list-item>
+                <mat-list-item><img src="{{user.avatar}}" class="circleImage">{{user.username}}<i class="material-icons tickmark">
+                    done
+                    </i></mat-list-item>
+
                 <!-- <mat-list-item><img src="https://api.adorable.io/avatars/100/ab@adorable.png" class="circleImage">Player2</mat-list-item>
                 <mat-list-item><img src="https://api.adorable.io/avatars/100/abott@adorable.png" class="circleImage">Player3</mat-list-item>
                 <mat-list-item><img src="https://api.adorable.io/avatars/100/sumit@adorable.png" class="circleImage">Player4</mat-list-item>
@@ -45,7 +48,9 @@
                 <div class="role">
                     <img class="role-card" [src] ="cardImage" />
                     <div class="buttons">
-                        <button class="full-width-button" routerLink="/game" mat-raised-button>Play</button>
+                        <button class="full-width-button" (click)="onReady()" [ngStyle]="{color:(!isReady)?'greenyellow':'crimson'}" [disabled]="isReady" mat-raised-button [textContent]="playerState"></button>
+
+                        <!-- routerLink="/game" -->
                     </div>
                     <div *ngIf ="roleVisibility">
                     <p>You are a <span>{{role}}</span></p>

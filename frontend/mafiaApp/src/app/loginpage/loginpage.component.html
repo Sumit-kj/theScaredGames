@@ -5,7 +5,7 @@
         <mat-error *ngIf="!user.valid || user.value == '' || user.value == ' '">Please enter a valid username</mat-error>
     </mat-form-field>
     <br>
-    <button mat-raised-button color="primary" [routerLink]="isAlready? '': 'lobby'"
+    <button mat-raised-button color="primary" 
     (click)="startGame()" [disabled]="this.username == '' || this.username == ' ' || !this.session== ''">Start a Game</button>
     <button mat-raised-button color="#fff" 
     (click)="joinGame()" [disabled]="this.username == '' || this.username == ' '">Join a Game</button><br>
@@ -13,7 +13,7 @@
         <input matInput placeholder="session id" autocomplete="off" #sessionId [(ngModel)]="session" required>
         <mat-error *ngIf="!sessionId.valid || sessionId.value == '' || userId.value == ' '">Please enter a valid session id</mat-error>
     </mat-form-field><br>
-    <button mat-raised-button color="#fff" routerLink="lobby" 
+    <button mat-raised-button color="#fff" 
     (click)="enterGame()" *ngIf="this.session!='' && isJoining">Enter the Game</button><br>
     <mat-expansion-panel>
         <mat-expansion-panel-header>

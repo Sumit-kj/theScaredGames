@@ -157,7 +157,7 @@ export class VotingComponent implements OnInit {
 
     voteCasted(argument){
         var clickedPlayer;
-        console.log(this.username);
+        console.log(argument);
         //   Finding Clicked Player
         if(argument['path'][0].className == "mat-figure")
             clickedPlayer = argument['path'][1].id;

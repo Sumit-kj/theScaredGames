@@ -8,7 +8,7 @@
     border: 6px solid black;
 }
 mat-list {
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
     height: 20em;
 }
 .lobby {
@@ -64,4 +64,9 @@ mat-list {
 }
 #leave {
     background-color: red;
+}
+.tickmark{
+    float: right;
+    padding-left:20px;
+    color:greenyellow;
 }

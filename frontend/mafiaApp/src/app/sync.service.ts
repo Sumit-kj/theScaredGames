@@ -54,7 +54,10 @@ export class SyncService {
   getVotes(){}
   endGame(){}
   getMessages(){}
-  getPlayers(){}
+  getPlayers(){
+
+    
+  }
 
   getRole(){
     var urlrole = this.urlhttp+"role/"+this.storage.get('session');
@@ -77,22 +80,11 @@ export class SyncService {
       { console.log(response);} 
      );
   } 
-  joinGame(name,sessionId):boolean{
-    return this.checkIfPLayerExists(name,sessionId);
-  }
-
-  checkIfPLayerExists(name,sessionId):boolean{
+  joinGame(name,sessionId): Promise<any> {
     var urlgame =this.urlhttp+"join_session/"+sessionId+"/";
     var alreadyExists = false;
     var json_name = new FormData();
     json_name.append('name',name);
-    this.http.post(urlgame,json_name,{'responseType':'json'}).subscribe(response=>
-       {  this.storage.set('session', response['session']);
-          console.log(this.storage.get('session'));
-          if(response['error']=="Player Already Exists!")
-            return true;
-      } 
-    );
-    return false;
+    return this.http.post(urlgame,json_name,{'responseType':'json'}).toPromise();
   }
 }

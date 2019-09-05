@@ -40,6 +40,16 @@ export class LoginpageComponent {
 
   enterGame():void{
     this.userService.userName = this.username;
-    this.isAlready = this.service.joinGame(this.username,this.session);
+    this.service.joinGame(this.username,this.session).then((response)=>{
+      console.log(response);
+      this.storage.set('session', response['session']);
+      if(response['error'] === "Player already exists")
+        this.isAlready = true;
+      else {
+        this.isAlready = false;
+      }
+    }).then(response => {
+      this.router.navigate(["/lobby"]);
+    });
   }
 }

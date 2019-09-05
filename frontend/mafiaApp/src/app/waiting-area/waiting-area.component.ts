@@ -16,17 +16,19 @@ export class WaitingAreaComponent implements OnInit {
   user:User = new User();
   visibleLink=false;
   userRole ="mafia";
-  cardImage ="https://media.istockphoto.com/photos/playing-card-king-of-spades-picture-id458126511?k=6&m=458126511&s=612x612&w=0&h=x0PjZz2iHWp20B02idcOE_UBoOh2XGkQoUiucxcHalg=";
-  imageList =["https://cdn.pixabay.com/photo/2013/07/13/13/45/playing-card-161489__480.png","https://cdn.pixabay.com/photo/2013/07/13/13/45/playing-card-161485__480.png",
-  "https://cdn.pixabay.com/photo/2014/03/25/17/01/spades-297839__480.png",
-  "https://cdn.pixabay.com/photo/2013/07/13/13/45/playing-card-161488__480.png",
-  "https://cdn.pixabay.com/photo/2013/07/13/13/46/playing-card-161494_1280.png",
-  "https://cdn.pixabay.com/photo/2012/04/18/19/20/card-37623_1280.png",
-"https://cdn.pixabay.com/photo/2013/07/13/13/45/playing-card-161487__480.png",
-"https://cdn.pixabay.com/photo/2013/07/13/13/45/playing-card-161490__480.png",
-"https://cdn.pixabay.com/photo/2013/07/13/13/46/playing-card-161492__480.png",
-"https://cdn.pixabay.com/photo/2013/07/13/13/45/playing-card-161487__480.png",
-];
+  cardImage ="https://static7.depositphotos.com/1257959/746/v/950/depositphotos_7461933-stock-illustration-playing-card-back-side-62x90.jpg";
+  imageList =[
+    "https://cdn.pixabay.com/photo/2013/07/13/13/45/playing-card-161489__480.png",
+    "https://cdn.pixabay.com/photo/2013/07/13/13/45/playing-card-161485__480.png",
+    "https://cdn.pixabay.com/photo/2014/03/25/17/01/spades-297839__480.png",
+    "https://cdn.pixabay.com/photo/2013/07/13/13/45/playing-card-161488__480.png",
+    "https://cdn.pixabay.com/photo/2013/07/13/13/46/playing-card-161494_1280.png",
+    "https://cdn.pixabay.com/photo/2012/04/18/19/20/card-37623_1280.png",
+    "https://cdn.pixabay.com/photo/2013/07/13/13/45/playing-card-161487__480.png",
+    "https://cdn.pixabay.com/photo/2013/07/13/13/45/playing-card-161490__480.png",
+    "https://cdn.pixabay.com/photo/2013/07/13/13/46/playing-card-161492__480.png",
+    "https://cdn.pixabay.com/photo/2013/07/13/13/45/playing-card-161487__480.png",
+  ];
   previousElement:any = undefined;
   constructor(private userService:UserSessionsService,private roleSetter:SyncService) { 
     this.visibleLink=false;
@@ -40,13 +42,13 @@ export class WaitingAreaComponent implements OnInit {
   iterCount =0;
   role;
   color;
+  playerState="Choose Avatar";
+  isReady:boolean = false;
   ngOnInit() {
     
-    this.user.avatar = "https://api.adorable.io/avatars/100/abe@adorable.png";    
-    this.setCards(50,0);
-    this.setCards(100,0);
+    this.isReady = true;
+    this.user.avatar = "https://static.wixstatic.com/media/13a4a7_93009681d85f450e97640bc48592963d~mv2_d_2633_1542_s_2.jpeg/v1/fill/w_1600,h_937,al_c,q_90/file.jpg";
     this.user.username = this.userService.userName; 
-     console.log(this.user.username);
     this.roleSetter.getRole().subscribe(response=>{
       this.role = response['role'];
       this.color = response['color'];
@@ -54,17 +56,18 @@ export class WaitingAreaComponent implements OnInit {
   }
 
   setAvatar(element):void {
+      this.isReady=false;
+      this.playerState ="Ready";
       if(this.previousElement !== undefined)
-      this.previousElement.classList.remove('selected');
-    this.user.avatar = element.src;
-    element.classList.add("selected");
-    this.previousElement = element;
-    this.userService.setUserRole(this.role);
-    this.roleSetter.setPlayer({'name':this.user.username,'avatar':this.user.avatar,'role':this.role,'alive':'True' ,'color':this.color});
-    this.userService.userProperties(this.user.avatar,this.color,this.role,true);
+         this.previousElement.classList.remove('selected');
+      this.user.avatar = element.src;
+      element.classList.add("selected");
+      this.previousElement = element;
   }
+
   beginGame():void { 
   }
+
   setCards(val:number,times:number):void {
     var timer = setInterval(()=>{
       this.cardImage = this.imageList[this.i];
@@ -73,7 +76,7 @@ export class WaitingAreaComponent implements OnInit {
         this.i = 0;
         times++;
       }
-      else if(times == 5){
+      else if(times == 4){
         this.iterCount++;
         var val =0;
         switch(this.role){
@@ -96,6 +99,16 @@ export class WaitingAreaComponent implements OnInit {
       }    
     }, val);
     
+  }
+
+  onReady(){
+      this.isReady=true;
+      this.playerState="Waiting for other Players";
+      this.setCards(50,0);
+      this.setCards(100,0);
+      this.userService.setUserRole(this.role);
+      this.roleSetter.setPlayer({'name':this.user.username,'avatar':this.user.avatar,'role':this.role,'alive':'True' ,'color':this.color});
+      this.userService.userProperties(this.user.avatar,this.color,this.role,true);
   }
 
 }

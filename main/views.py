@@ -52,10 +52,9 @@ def create_session(request):
 def join_session(request,session):
     try:
         player_session = Session.objects.get(session=session)
-        if Player.objects.get(session=player_session,name=request.POST['name']) is not None:
-            raise Exception('Player Already Exists!')
-            print("here")
-        elif Session.objects.get(session=str(session)) is not None:
+        # if Player.objects.get(session=player_session,name=request.POST['name']) is not None:
+        #     raise Exception('Player Already Exists!')
+        if Session.objects.get(session=str(session)) is not None:
             response = JsonResponse({'session': session, 'state': 'begin'})
             Player(name=request.POST['name'], alive=True,
                    avatar="null", role="null", color="null", session=Session.objects.get(session=session)).save()
