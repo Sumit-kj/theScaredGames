@@ -122,11 +122,14 @@ export class VotingComponent implements OnInit {
         ]
     };
     session_id = 1;
-    
+    websocket:WebSocket;
     earlierVotedPlayer = "";
     playerNames =[];
     constructor(private userSessionsService:UserSessionsService) { 
-        
+        this.websocket = new WebSocket('ws://localhost:8000/ready/12223a/');
+        this.websocket.onmessage = (response) => {
+            console.log(response);
+        }
     }
     
     ngOnInit() {
@@ -157,12 +160,14 @@ export class VotingComponent implements OnInit {
 
     voteCasted(argument){
         var clickedPlayer;
+        this.websocket.send(JSON.stringify({'username':'ankit'}));
+        console.log(argument['target'].innerText.split("\n")[0]);
         console.log(argument);
         //   Finding Clicked Player
-        if(argument['path'][0].className == "mat-figure")
-            clickedPlayer = argument['path'][1].id;
+        if(argument['target'].className == "mat-figure")
+            clickedPlayer = argument['target'].innerText.split("\n")[0];
         else
-            clickedPlayer = argument['path'][2].id;
+            clickedPlayer = argument['target'].innerText.split("\n")[0];
         console.log("clickedPlayer: "+clickedPlayer);
         //   check if same player clicked again
         if(this.earlierVotedPlayer == clickedPlayer){
@@ -207,7 +212,8 @@ export class VotingComponent implements OnInit {
     }
 
     get username(){
-        return this.userSessionsService.User.username;
+        // return this.userSessionsService.User.username;
+        return "Someone";
     }
     get game_data(){
         return this.json_data[this.session_id];

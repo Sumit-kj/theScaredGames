@@ -116,5 +116,6 @@ def player_status(request, name):
         return JsonResponse({'alive': 'true'})
     return JsonResponse({'alive': 'false'})
 
+
 def json_error(message):
     return JsonResponse({'status': 'failed', 'error': str(message)})

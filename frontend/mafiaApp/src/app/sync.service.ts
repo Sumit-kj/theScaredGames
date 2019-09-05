@@ -15,11 +15,7 @@ export class SyncService {
   messageSocket:WebSocket;
   
   constructor(private http:HttpClient ,private storage:SessionStorageService ,private user: UserSessionsService) {
-    this.messageSocket = new WebSocket(this.url);
-    this.messageSocket.onmessage = (event)=> {
-      console.info(event);
-      this.messageSource.next(JSON.parse(event['data']));
-    }
+    
   }
   get VotesSource(): Observable<JSON> {
     return this.votesSource.asObservable();
@@ -31,14 +27,20 @@ export class SyncService {
     return this.messageSource.asObservable();
   }
 
-  getAlive(name){
+  getAlive(name: string){
     var urlalive = this.urlhttp+"status/";
     var json_name = new FormData();
     json_name.append('name',name);
     return this.http.post(urlalive,json_name,{'responseType':'json'});
   }
-  
-  startGame(name): Promise<any> {
+  startChat(): void {
+    this.messageSocket = new WebSocket(this.url+this.storage.get('session')+'a/');
+    this.messageSocket.onmessage = (event)=> {
+      console.info(event);
+      this.messageSource.next(JSON.parse(event['data']));
+    }
+  }
+  startGame(name: string): Promise<any> {
     //ankit do this
     var urlgame = this.urlhttp+"create_session/";
     var json_name = new FormData();
