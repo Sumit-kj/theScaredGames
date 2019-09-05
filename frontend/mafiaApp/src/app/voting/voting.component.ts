@@ -122,14 +122,11 @@ export class VotingComponent implements OnInit {
         ]
     };
     session_id = 1;
-    websocket:WebSocket;
+    
     earlierVotedPlayer = "";
     playerNames =[];
     constructor(private userSessionsService:UserSessionsService) { 
-        this.websocket = new WebSocket('ws://localhost:8000/ready/12223a/');
-        this.websocket.onmessage = (response) => {
-            console.log(response);
-        }
+        
     }
     
     ngOnInit() {

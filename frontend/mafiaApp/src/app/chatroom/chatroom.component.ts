@@ -1,6 +1,6 @@
 import { UserSessionsService } from './../user-sessions.service';
 import {  HttpClient } from '@angular/common/http';
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import { FormsModule }   from '@angular/forms';
 import { SyncService } from '../sync.service';
 @Component({
@@ -8,7 +8,7 @@ import { SyncService } from '../sync.service';
   templateUrl: './chatroom.component.html',
   styleUrls: ['./chatroom.component.css']
 })
-export class ChatroomComponent implements OnInit {
+export class ChatroomComponent implements OnInit, OnDestroy {
   results:any[]=[];
   randomKey:number;
   sentmessage=false;
@@ -20,10 +20,9 @@ export class ChatroomComponent implements OnInit {
   playerName:String=this.user.User.username;
 
   ngOnInit(){
-     
+    this.sync.startChat();
   }
   constructor(private sync:SyncService,private user:UserSessionsService) {
-    sync.startChat();
     this.sync.MessageSource.subscribe(message => {
       console.log(message)
       this.sentmessage = true;
@@ -32,7 +31,10 @@ export class ChatroomComponent implements OnInit {
     setInterval(function(){
     },3);
   }
- 
+  
+  ngOnDestroy(): void {
+    this.sync.endChat();
+  }
   sendMessage(){ 
     console.log(this.playerName);
     var msgjson = this.text;

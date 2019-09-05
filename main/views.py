@@ -49,7 +49,7 @@ def create_session(request):
     return None
 
 @csrf_exempt
-def join_session(request,session):
+def join_session(request, session):
     try:
         player_session = Session.objects.get(session=session)
         # if Player.objects.get(session=player_session,name=request.POST['name']) is not None:
@@ -95,8 +95,8 @@ def session_change(request):
     return None
 
 
-def finish_game(request):
-    return None
+def finish_game(request, session):
+    Session.objects.get(session=session).delete()
 
 
 def get_all(request, session):
