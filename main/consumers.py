@@ -8,6 +8,7 @@ import json
 class ScaredGamesConsumer(WebsocketConsumer):
 
     def connect(self):
+        self.vote = {'city': {}, 'mafia': {}, 'doctor': {}}
         self.room = str(self.scope['url_route']['kwargs']['room'][:-1])
         print(self.room)
         async_to_sync(self.channel_layer.group_add)(
@@ -25,13 +26,16 @@ class ScaredGamesConsumer(WebsocketConsumer):
                  'message': content['message']}
             )
         elif content['type'] == 'vote':
-            votee = Player.objects.get(name=content['votee'])
-            voted = Player.objects.get(name=content['voted'])
-            v = Vote(votee, voted).save()
+            if not self.vote[content['stage']][content['votee']] == content['voted']:
+                self.vote[content['stage']][content['votee']] = content['voted']
+            else:
+                self.vote[content['stage']][content['votee']] = ""
             async_to_sync(self.channel_layer.group_send)(
                 self.room,
                 {'type': 'send.vote', 'voter': content['votee'], 'voted': content['voted']}
             )
+        elif content['type'] == 'get_result':
+            pass
 
     def disconnect(self, code):
         async_to_sync(self.channel_layer.group_discard)(

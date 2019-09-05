@@ -18,6 +18,7 @@ class Player(models.Model):
 
 class Vote(models.Model):
     # id = models.AutoField()
+    session = models.ForeignKey(Session, on_delete=models.CASCADE)
     p = models.ForeignKey(Player, on_delete=models.CASCADE)
     voted = models.TextField()
 
