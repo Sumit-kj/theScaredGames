@@ -23,6 +23,7 @@ export class ChatroomComponent implements OnInit {
      
   }
   constructor(private sync:SyncService,private user:UserSessionsService) {
+    sync.startChat();
     this.sync.MessageSource.subscribe(message => {
       console.log(message)
       this.sentmessage = true;
