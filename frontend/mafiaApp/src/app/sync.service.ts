@@ -29,6 +29,10 @@ export class SyncService {
     return this.messageSource.asObservable();
   }
 
+  get ReadySource():Observable<JSON> {
+    return this.readySource.asObservable();
+  }
+
   getAlive(name: string){
     var urlalive = this.urlhttp+"status/";
     var json_name = new FormData();
@@ -60,14 +64,15 @@ export class SyncService {
   getMessages(){}
   startPlayerLobby(){
     this.playerSocket = new WebSocket('ws://localhost:8000/ready/'+this.storage.get('session')+'/');
-    this.playerSocket.onmessage = (response) => {
-    if(response['type']=='lobby_join')
+    this.playerSocket.onmessage = (event) => {
+     var response=JSON.parse(event['data']); 
+    if(response['type']=='join')
     {
-         return ({'join':response['username']});
+         this.playerSource.next(response);
     }
-    else if(response['type']=='lobby_read')
+    else if(response['type']=='ready')
     {
-        return({'ready':response['username']});
+        this.readySource.next(response);
     }
     }
   }

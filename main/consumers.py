@@ -66,7 +66,7 @@ class LobbyConsumer(WebsocketConsumer):
         if content['type'] == 'player_join':
             async_to_sync(self.channel_layer.group_send)(
                 self.room,
-                {'type': 'lobby.join', 'name': content['username']},
+                {'type': 'lobby.join', 'name': content['username'] ,'avatar':content['avatar']},
             )
         elif content['type'] == 'ready':
             async_to_sync(self.channel_layer.group_send)(
@@ -90,7 +90,7 @@ class LobbyConsumer(WebsocketConsumer):
         else:
             self.send(text_data=json.dumps({
                 'type': 'ready',
-                'ready': event['name'],
+                'name': event['name'],
             }))
 
     def lobby_join(self, event):
@@ -98,4 +98,5 @@ class LobbyConsumer(WebsocketConsumer):
         self.send(text_data=json.dumps({
             'type': 'join',
             'name': event['name'],
+            'avatar':event['avatar'],
         }))

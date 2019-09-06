@@ -5,12 +5,12 @@
         </mat-card-header>
         <mat-card-content>
             <mat-list>
-                <h3 mat-subheader>In Lobby</h3>
+                <!-- <h3 mat-subheader>In Lobby</h3>
                 <mat-list-item><img src="{{user.avatar}}" class="circleImage">{{user.username}}<i *ngIf="playerState=='Waiting for other Players'" class="material-icons tickmark">
                     done
-                    </i></mat-list-item>
-                <mat-list-item *ngFor="let player of readyArray">
-                    <img src="{{player.avatar}}" class="circleImage">{{player.name}} <i class="material-icons tickmark">done</i>
+                    </i></mat-list-item> -->
+                <mat-list-item *ngFor="let player of joinedArray">
+                    <img src="{{avatarArray[player]}}" class="circleImage">{{player}} <i class="material-icons tickmark">done</i>
                 </mat-list-item>
 
                 <!-- <mat-list-item><img src="https://api.adorable.io/avatars/100/ab@adorable.png" class="circleImage">Player2</mat-list-item>
@@ -31,7 +31,7 @@
                 <mat-card-title>Customize your character {{user.username}}</mat-card-title>
             </mat-card-header>
             <mat-card-content>
-                <mat-card class="card">
+                <mat-card class="card" *ngIf="isAvatarNotSet">
                     <mat-card-header>
                         <mat-card-title>Select an avatar</mat-card-title>
                     </mat-card-header>
@@ -48,6 +48,22 @@
                                 <img (click)="setAvatar($event.target)" src="https://api.adorable.io/avatars/100/abtt@adorable.png" class="circle-image-selection">
                     </mat-card-content>
                 </mat-card>
+
+                <mat-card *ngIf="!isAvatarNotSet">
+                        <mat-card-header>
+                            <mat-card-title>Invite your Friends!</mat-card-title>
+                            <mat-card-subtitle>Send them the link below</mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <h3>{{ inviteUrl }}</h3>
+                        </mat-card-content>
+                        <mat-card-actions>
+                            <a href="mailto:?subject=join my session on scared games!&body={{inviteUrl}}" mat-icon-button aria-label="E-mail Link">
+                                <i class="material-icons">mail_outline</i>
+                            </a>
+                        </mat-card-actions>
+                    </mat-card>
+
                 <div class="role">
                     <img class="role-card" [src] ="cardImage" />
                     <div class="buttons">

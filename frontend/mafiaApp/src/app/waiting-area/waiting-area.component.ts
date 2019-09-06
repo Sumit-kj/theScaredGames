@@ -42,17 +42,26 @@ export class WaitingAreaComponent implements OnInit,OnDestroy {
   playerState:string = "Select An Avatar";
   readyArray=[];
   joinedArray=[];
+  avatarArray=[{}];
+  isAvatarNotSet:boolean=true;
+  inviteUrl:string = "http://localhost:8000/join_game/session?=";
   constructor(private userService:UserSessionsService,private roleSetter:SyncService ,private storage: SessionStorageService) {
     this.visibleLink=false;
     this.result =roleSetter.startPlayerLobby();
-    if(this.result['join'])
-    {
-      this.joinedArray.unshift(this.result['join']);
-    }
-    else if(this.result['ready'])
-    {
-      this.readyArray.unshift(this.result['ready']);
-    }
+    this.roleSetter.ReadySource.subscribe((response)=>{
+      this.readyArray.unshift(response['name']);
+      // console.log(response);
+    });
+    this.roleSetter.PlayerSource.subscribe((response)=>{
+      var index =this.joinedArray.indexOf(response['name']);
+      if(index==-1){
+        this.joinedArray.unshift(response['name']);
+      this.avatarArray[response['name']]=response['avatar'];
+      }
+      console.log(response);
+      // console.log(response);
+      console.log(this.avatarArray);
+    });
   }
 
   linkVisible(){
@@ -62,7 +71,7 @@ export class WaitingAreaComponent implements OnInit,OnDestroy {
   ngOnInit() {
     this.user.avatar = "https://static.wixstatic.com/media/13a4a7_93009681d85f450e97640bc48592963d~mv2_d_2633_1542_s_2.jpeg/v1/fill/w_1600,h_937,al_c,q_90/file.jpg";
     this.user.username = this.userService.userName;
-    console.log(this.user.username);
+    // console.log(this.user.username);
     this.roleSetter.getRole().subscribe(response=>{
       this.role = response['role'];
       this.color = response['color'];
@@ -73,7 +82,6 @@ export class WaitingAreaComponent implements OnInit,OnDestroy {
     this.roleSetter.playerSocket.close();
   }
   setAvatar(element):void {
-    this.roleSetter.playerSocket.send(JSON.stringify({'type': 'player_join', 'username': this.user.username }))
     this.isReady=false;
     this.playerState = "Ready";
     if(this.previousElement !== undefined)
@@ -81,6 +89,8 @@ export class WaitingAreaComponent implements OnInit,OnDestroy {
     this.user.avatar = element.src;
     element.classList.add("selected");
     this.previousElement = element;
+    this.roleSetter.playerSocket.send(JSON.stringify({'type': 'player_join', 'username': this.user.username ,'avatar':this.user.avatar}))
+    this.isAvatarNotSet=false;
   }
 
   beginGame():void {
