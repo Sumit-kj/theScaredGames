@@ -7,11 +7,11 @@ import { LocalStorageService, SessionStorageService, LocalStorage, SessionStorag
   providedIn: 'root'
 })
 export class SyncService {
-  url:string  = "ws://localhost:8000/sync/"
+  url:string  = "ws://10.20.27.76:8000/sync/"
   private votesSource = new Subject<JSON>();
   private playerSource = new Subject<JSON>();
   private messageSource = new Subject<JSON>();
-  urlhttp:string = "http://localhost:8000/";
+  urlhttp:string = "http://10.20.27.76:8000/";
   messageSocket:WebSocket;
   
   constructor(private http:HttpClient ,private storage:SessionStorageService ,private user: UserSessionsService) {
@@ -34,12 +34,30 @@ export class SyncService {
     return this.http.post(urlalive,json_name,{'responseType':'json'});
   }
   startChat(): void {
-    this.messageSocket = new WebSocket(this.url+this.storage.get('session')+'a/');
-    this.messageSocket.onmessage = (event)=> {
-      console.info(event);
-      this.messageSource.next(JSON.parse(event['data']));
+    if (this.messageSocket == null){
+      this.messageSocket = new WebSocket(this.url+this.storage.get('session')+'a/');
+      this.messageSocket.onmessage = (event)=> {
+        console.info(event);
+        let content = JSON.parse(event['data'])
+        if(content['type'] == 'send.vote')
+          this.votesSource.next(content);
+        else
+          this.messageSource.next(content);
+        
+      }
     }
   }
+
+  startVote(): void {
+    if(this.messageSocket == null){
+      this.messageSocket = new WebSocket(this.url+this.storage.get('session')+'a/');
+      this.messageSocket.onmessage = (event)=> {
+        console.info(event);
+        this.messageSource.next(JSON.parse(event['data']));
+      }
+    }
+  }
+
   startGame(name: string): Promise<any> {
     //ankit do this
     var urlgame = this.urlhttp+"create_session/";
@@ -49,16 +67,20 @@ export class SyncService {
   }
   
   sendMessage(username, message): void {
-    this.messageSocket.send(JSON.stringify({'type':'chat', 'name': username,'message':message}));
+    this.messageSocket.send(JSON.stringify({'type':'chat','name': username,'message':message}));
   }
-  vote(){}
+
+  vote(votee, voted){
+    this.messageSocket.send(JSON.stringify({'type':'vote','stage':this.storage.get('stage') , 'votee': votee,'voted':voted}));
+  }
+  
   kill(){}
   getVotes(){}
   endGame(){}
   getMessages(){}
-  getPlayers(){
-
-    
+  getPlayers() : any{
+    var urlrole = this.urlhttp+"get_name_avatar/"+this.storage.get('session');
+    return this.http.get(urlrole,{'responseType':'json'});
   }
 
   getRole(){
@@ -84,13 +106,16 @@ export class SyncService {
   } 
   joinGame(name,sessionId): Promise<any> {
     var urlgame =this.urlhttp+"join_session/"+sessionId+"/";
-    var alreadyExists = false;
     var json_name = new FormData();
     json_name.append('name',name);
     return this.http.post(urlgame,json_name,{'responseType':'json'}).toPromise();
   }
 
   endChat(): void {
+    this.messageSocket.close();
+  }
+
+  endVote(): void {
     this.messageSocket.close();
   }
 }

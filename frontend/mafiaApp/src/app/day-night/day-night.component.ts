@@ -129,8 +129,9 @@ export class DayNightComponent implements OnInit {
   };
   ngOnInit() {
     this.gameStart();
+    console.log(this.role);
   }
-  constructor(private _snackBar: MatSnackBar, private userSessionsService:UserSessionsService, public dialog: MatDialog) { }
+  constructor(private _snackBar: MatSnackBar, private userSessionsService:UserSessionsService, public dialog: MatDialog, private session: SessionStorageService) { }
 
   game_state : String;
   game_phase : String;
@@ -152,13 +153,14 @@ export class DayNightComponent implements OnInit {
     this.game_phase = "trans";
     this.game_state = "night begins";
     this.game_message ="Mafias Arise!";
-    this.timer_period = 1;
+    this.timer_period = 4;
   }
 
   mafia_phase(){
+    this.session.set('stage','mafia');
     this.game_phase = "game";
     this.game_state = "mafia"; 
-    this.timer_period = 1
+    this.timer_period = 500;
     this.counter.restart();
     // console.log("mafia_phase");
   }
@@ -174,7 +176,7 @@ export class DayNightComponent implements OnInit {
   detective_phase(){
     this.game_phase = "game";
     this.game_state = "detective";
-    this.timer_period = 1;
+    this.timer_period = 10;
     this.counter.restart();
   }
 
@@ -189,7 +191,8 @@ export class DayNightComponent implements OnInit {
   doctor_phase(){
     this.game_phase = "game";
     this.game_state = "doctor";
-    this.timer_period = 1;
+    this.timer_period = 10;
+    this.session.set('stage','doctor');
     this.counter.restart();
   }
 
@@ -212,6 +215,7 @@ export class DayNightComponent implements OnInit {
   city_phase(){
     this.game_phase = "game";
     this.game_state = "city";
+    this.session.set('stage','city');
     this.timer_period = 100;
     this.counter.restart();
   }
@@ -256,7 +260,7 @@ export class DayNightComponent implements OnInit {
         this.mafia_phase();
         break;
       case "mafia": 
-        this.trans_state_mafia_ends();
+        // this.trans_state_mafia_ends();
         break;
       case "mafia to detective": 
         this.detective_phase();

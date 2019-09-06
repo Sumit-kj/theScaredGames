@@ -32,7 +32,7 @@ export class LoginpageComponent {
       }).catch(err => {
         console.error(err," happened");
       });
-}
+  }
 
   joinGame():void{
     this.isJoining = true;

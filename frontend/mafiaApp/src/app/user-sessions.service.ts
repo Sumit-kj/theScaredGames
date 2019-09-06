@@ -33,4 +33,8 @@ export class UserSessionsService {
   get userName(): string {
     return this.theUser.username;
   }
+
+  get role(): string {
+    return this.theUser.role;
+  }
 }

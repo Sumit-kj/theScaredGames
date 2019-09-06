@@ -51,7 +51,8 @@
                 <div class="role">
                     <img class="role-card" [src] ="cardImage" />
                     <div class="buttons">
-                        <button class="full-width-button" (click)="onReady()" [ngStyle]="{color:(!isReady)?'greenyellow':'crimson'}" [disabled]="isReady" mat-raised-button [textContent]="playerState"></button>
+                        <!-- <button class="full-width-button" (click)="onReady()" [ngStyle]="{color:(!isReady)?'greenyellow':'crimson'}" [disabled]="isReady" mat-raised-button [textContent]="playerState"></button> -->
+                        <button class="full-width-button" (click)="onReady()" [ngStyle]="{color:(!isReady)?'greenyellow':'crimson'}" mat-raised-button [textContent]="playerState"></button>
 
                         <!-- routerLink="/game" -->
                     </div>

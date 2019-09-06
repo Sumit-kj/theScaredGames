@@ -5,6 +5,7 @@ import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
 import { User } from '../user';
 import { __await } from 'tslib';
 import { timer } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'waiting-area',
@@ -40,9 +41,9 @@ export class WaitingAreaComponent implements OnInit,OnDestroy {
   isReady:boolean = true;
   playerState:string = "Select An Avatar";
 
-  constructor(private userService:UserSessionsService,private roleSetter:SyncService ,private storage: SessionStorageService) {
+  constructor(private userService:UserSessionsService,private router: Router,private roleSetter:SyncService ,private storage: SessionStorageService) {
     this.visibleLink=false;
-    this.websocket = new WebSocket('ws://localhost:8000/ready/'+this.storage.get('session')+'/');
+    this.websocket = new WebSocket('ws://10.20.27.76:8000/ready/'+this.storage.get('session')+'/');
     this.websocket.onmessage = (response) => {
       console.log(response);
     }
@@ -57,8 +58,11 @@ export class WaitingAreaComponent implements OnInit,OnDestroy {
     this.user.username = this.userService.userName;
      console.log(this.user.username);
     this.roleSetter.getRole().subscribe(response=>{
+      response['role']="mafia";
       this.role = response['role'];
       this.color = response['color'];
+      this.user.role = this.role;
+      this.user.color = this.color;
     });
     
   }
@@ -114,6 +118,8 @@ export class WaitingAreaComponent implements OnInit,OnDestroy {
   }
 
   onReady(){
+      if(this.playerState == "Waiting for other Players")
+        this.router.navigate(['game/']);
       this.isReady=true;
       this.playerState="Waiting for other Players";
       this.setCards(50,0);

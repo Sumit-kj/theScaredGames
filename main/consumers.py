@@ -26,7 +26,9 @@ class ScaredGamesConsumer(WebsocketConsumer):
                  'message': content['message']}
             )
         elif content['type'] == 'vote':
-            if not self.vote[content['stage']][content['votee']] == content['voted']:
+            if not content['votee'] in self.vote[content['stage']].keys():
+                self.vote[content['stage']][content['votee']] = content['voted']
+            elif not self.vote[content['stage']][content['votee']] == content['voted']:
                 self.vote[content['stage']][content['votee']] = content['voted']
             else:
                 self.vote[content['stage']][content['votee']] = ""
@@ -34,6 +36,7 @@ class ScaredGamesConsumer(WebsocketConsumer):
                 self.room,
                 {'type': 'send.vote', 'voter': content['votee'], 'voted': content['voted']}
             )
+            print(self.vote)
         elif content['type'] == 'get_result':
             pass
 
@@ -48,6 +51,7 @@ class ScaredGamesConsumer(WebsocketConsumer):
         self.send(text_data=json.dumps(event))
 
     def send_vote(self, event):
+        print(event)
         self.send(text_data=json.dumps(event))
 
 
@@ -82,6 +86,7 @@ class LobbyConsumer(WebsocketConsumer):
         )
 
     def lobby_read(self, event):
+        print(event)
         self.ready_players.append(event['name'])
         print(self.ready_players)
         if len(self.ready_players) == 10:

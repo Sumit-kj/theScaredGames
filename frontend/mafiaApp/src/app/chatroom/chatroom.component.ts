@@ -25,8 +25,10 @@ export class ChatroomComponent implements OnInit, OnDestroy {
   constructor(private sync:SyncService,private user:UserSessionsService) {
     this.sync.MessageSource.subscribe(message => {
       console.log(message)
-      this.sentmessage = true;
-      this.message.unshift(message)
+      if(message['type']=="chat.message"){
+        this.sentmessage = true;
+        this.message.unshift(message)
+      }
     });
     setInterval(function(){
     },3);
