@@ -36,13 +36,23 @@ export class WaitingAreaComponent implements OnInit,OnDestroy {
   iterCount:number = 0;
   role:string;
   color:string;
+  result;
   previousElement:any = undefined;
   isReady:boolean = true;
   playerState:string = "Select An Avatar";
-
+  readyArray=[];
+  joinedArray=[];
   constructor(private userService:UserSessionsService,private roleSetter:SyncService ,private storage: SessionStorageService) {
     this.visibleLink=false;
-    roleSetter.startPlayerLobby();
+    this.result =roleSetter.startPlayerLobby();
+    if(this.result['join'])
+    {
+      this.joinedArray.unshift(this.result['join']);
+    }
+    else if(this.result['ready'])
+    {
+      this.readyArray.unshift(this.result['ready']);
+    }
   }
 
   linkVisible(){

@@ -58,10 +58,17 @@ export class SyncService {
   getVotes(){}
   endGame(){}
   getMessages(){}
-  startPlayerLobby():void {
+  startPlayerLobby(){
     this.playerSocket = new WebSocket('ws://localhost:8000/ready/'+this.storage.get('session')+'/');
     this.playerSocket.onmessage = (response) => {
-      console.log(response);
+    if(response['type']=='lobby_join')
+    {
+         return ({'join':response['username']});
+    }
+    else if(response['type']=='lobby_read')
+    {
+        return({'ready':response['username']});
+    }
     }
   }
 
