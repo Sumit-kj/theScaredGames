@@ -21,9 +21,17 @@ mat-list {
     margin: 10px;
     border-radius: 50%;
 }
+
+/* .circleImage:hover {
+    width: 160px;
+    height: 160px;
+    margin: 10px;
+    border-radius: 50%;
+} */
 .card {
-    background: white;
+    background-color: white;
     color: black;
+
 }
 .circle-image-selection {
     width: 70px;

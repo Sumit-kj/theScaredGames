@@ -44,7 +44,7 @@ export class WaitingAreaComponent implements OnInit,OnDestroy {
   joinedArray=[];
   avatarArray=[{}];
   isAvatarNotSet:boolean=true;
-  inviteUrl:string = "http://localhost:8000/join_game/session?=";
+  inviteUrl:string = "http://localhost:8000/join_game/session?="+this.storage.get('session');
   constructor(private userService:UserSessionsService,private roleSetter:SyncService ,private storage: SessionStorageService) {
     this.visibleLink=false;
     this.result =roleSetter.startPlayerLobby();
@@ -134,12 +134,12 @@ export class WaitingAreaComponent implements OnInit,OnDestroy {
       this.isReady=true;
       this.playerState="Waiting for other Players";
       this.userService.setUserRole(this.role);
+      this.setCards(50,0);
+      this.setCards(100,0);
       this.roleSetter.setPlayer({'name':this.user.username,'avatar':this.user.avatar,'role':this.role,'alive':'True' ,'color':this.color});
       this.userService.userProperties(this.user.avatar,this.color,this.role,true);
       this.websocket.send(JSON.stringify({'type':'ready', 'username': this.user.username }))
-      // this.
-      this.setCards(50,0);
-      this.setCards(100,0);
+      
     }
 
 }

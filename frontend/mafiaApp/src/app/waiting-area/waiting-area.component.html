@@ -5,49 +5,36 @@
         </mat-card-header>
         <mat-card-content>
             <mat-list>
-                <!-- <h3 mat-subheader>In Lobby</h3>
-                <mat-list-item><img src="{{user.avatar}}" class="circleImage">{{user.username}}<i *ngIf="playerState=='Waiting for other Players'" class="material-icons tickmark">
-                    done
-                    </i></mat-list-item> -->
                 <mat-list-item *ngFor="let player of joinedArray">
                     <img src="{{avatarArray[player]}}" class="circleImage">{{player}} <i class="material-icons tickmark">done</i>
                 </mat-list-item>
-
-                <!-- <mat-list-item><img src="https://api.adorable.io/avatars/100/ab@adorable.png" class="circleImage">Player2</mat-list-item>
-                <mat-list-item><img src="https://api.adorable.io/avatars/100/abott@adorable.png" class="circleImage">Player3</mat-list-item>
-                <mat-list-item><img src="https://api.adorable.io/avatars/100/sumit@adorable.png" class="circleImage">Player4</mat-list-item>
-                <mat-list-item><img src="https://api.adorable.io/avatars/100/kartik@adorable.png" class="circleImage">Player5</mat-list-item>
-                <mat-list-item><img src="https://api.adorable.io/avatars/100/ankit@adorable.png" class="circleImage">Player6</mat-list-item>
-                <mat-list-item><img src="https://api.adorable.io/avatars/100/at@adorable.png" class="circleImage">Player7</mat-list-item>
-                <mat-list-item><img src="https://api.adorable.io/avatars/100/aot@adorable.png" class="circleImage">Player8</mat-list-item>
-                <mat-list-item><img src="https://api.adorable.io/avatars/100/abo@adorable.png" class="circleImage">Player9</mat-list-item>
-                <mat-list-item><img src="https://api.adorable.io/avatars/100/abtt@adorable.png" class="circleImage">Player10</mat-list-item> -->
             </mat-list>
         </mat-card-content>
-        </mat-card>
+    </mat-card>
         
-        <mat-card class="lobby-card-character">
-            <mat-card-header>
-                <mat-card-title>Customize your character {{user.username}}</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-                <mat-card class="card" *ngIf="isAvatarNotSet">
-                    <mat-card-header>
-                        <mat-card-title>Select an avatar</mat-card-title>
-                    </mat-card-header>
-                    <mat-card-content class="avatar-grid">
-                                <img (click)="setAvatar($event.target)" src="https://api.adorable.io/avatars/100/abe@adorable.png" class="circle-image-selection">
-                                <img (click)="setAvatar($event.target)" src="https://api.adorable.io/avatars/100/abott@adorable.png" class="circle-image-selection">
-                                <img (click)="setAvatar($event.target)" src="https://api.adorable.io/avatars/100/ab@adorable.png" class="circle-image-selection">
-                                <img (click)="setAvatar($event.target)" src="https://api.adorable.io/avatars/100/sumit@adorable.png" class="circle-image-selection">
-                                <img (click)="setAvatar($event.target)" src="https://api.adorable.io/avatars/100/kartik@adorable.png" class="circle-image-selection">
-                                <img (click)="setAvatar($event.target)" src="https://api.adorable.io/avatars/100/ankit@adorable.png" class="circle-image-selection">
-                                <img (click)="setAvatar($event.target)" src="https://api.adorable.io/avatars/100/at@adorable.png" class="circle-image-selection">
-                                <img (click)="setAvatar($event.target)" src="https://api.adorable.io/avatars/100/aot@adorable.png" class="circle-image-selection">
-                                <img (click)="setAvatar($event.target)" src="https://api.adorable.io/avatars/100/abo@adorable.png" class="circle-image-selection">
-                                <img (click)="setAvatar($event.target)" src="https://api.adorable.io/avatars/100/abtt@adorable.png" class="circle-image-selection">
-                    </mat-card-content>
-                </mat-card>
+    <mat-card class="lobby-card-character">
+        <mat-card-header>
+            <mat-card-title>Customize your character {{user.username}}</mat-card-title>
+        </mat-card-header>
+        
+        <mat-card-content>
+            <mat-card class="card" *ngIf="isAvatarNotSet">
+                <mat-card-header>
+                    <mat-card-title>Select an avatar</mat-card-title>
+                </mat-card-header>
+                <mat-card-content class="avatar-grid">
+                            <img (click)="setAvatar($event.target)" src="https://api.adorable.io/avatars/100/abe@adorable.png" class="circle-image-selection">
+                            <img (click)="setAvatar($event.target)" src="https://api.adorable.io/avatars/100/abott@adorable.png" class="circle-image-selection">
+                            <img (click)="setAvatar($event.target)" src="https://api.adorable.io/avatars/100/ab@adorable.png" class="circle-image-selection">
+                            <img (click)="setAvatar($event.target)" src="https://freaky5.com/wp-content/uploads/2018/07/SARDAR_KHAN-1024x682.jpg" class="circle-image-selection">
+                            <img (click)="setAvatar($event.target)" src="https://api.adorable.io/avatars/100/kartik@adorable.png" class="circle-image-selection">
+                            <img (click)="setAvatar($event.target)" src="https://api.adorable.io/avatars/100/ankit@adorable.png" class="circle-image-selection">
+                            <img (click)="setAvatar($event.target)" src="https://api.adorable.io/avatars/100/at@adorable.png" class="circle-image-selection">
+                            <img (click)="setAvatar($event.target)" src="https://api.adorable.io/avatars/100/aot@adorable.png" class="circle-image-selection">
+                            <img (click)="setAvatar($event.target)" src="https://api.adorable.io/avatars/100/abo@adorable.png" class="circle-image-selection">
+                            <img (click)="setAvatar($event.target)" src="https://api.adorable.io/avatars/100/abtt@adorable.png" class="circle-image-selection">
+                </mat-card-content>
+            </mat-card>
 
                 <mat-card *ngIf="!isAvatarNotSet">
                         <mat-card-header>
@@ -67,14 +54,14 @@
                 <div class="role">
                     <img class="role-card" [src] ="cardImage" />
                     <div class="buttons">
-                        <button class="full-width-button" (click)="onReady()" [ngStyle]="{color:(!isReady)?'greenyellow':'crimson'}" [disabled]="isReady" mat-raised-button [textContent]="playerState"></button>
-
+                        <button class="full-width-button mat-raised-button" (click)="onReady()" [ngStyle]="{color:(!isReady)?'greenyellow':'crimson'}" [disabled]="isReady" [textContent]="playerState"></button>
+                        <!-- mat-raised-button -->
                         <!-- routerLink="/game" -->
                     </div>
-                    <div *ngIf ="roleVisibility">
+                    <div *ngIf ="roleVisibility" style="display: inline">
                     <p>You are a <span>{{role}}</span></p>
                     </div>
                 </div>
             </mat-card-content>
-            </mat-card>
+        </mat-card>
 </div>
