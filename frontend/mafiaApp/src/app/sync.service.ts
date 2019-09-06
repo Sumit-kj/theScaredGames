@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { LocalStorageService, SessionStorageService, LocalStorage, SessionStorage } from 'angular-web-storage';
+import { JsonPipe } from '@angular/common';
 @Injectable({
   providedIn: 'root'
 })
@@ -10,10 +11,11 @@ export class SyncService {
   url:string  = "ws://10.20.27.76:8000/sync/"
   private votesSource = new Subject<JSON>();
   private playerSource = new Subject<JSON>();
+  private readySource = new Subject<JSON>();
   private messageSource = new Subject<JSON>();
   urlhttp:string = "http://10.20.27.76:8000/";
   messageSocket:WebSocket;
-  
+  playerSocket: WebSocket;
   constructor(private http:HttpClient ,private storage:SessionStorageService ,private user: UserSessionsService) {
     
   }
@@ -25,6 +27,10 @@ export class SyncService {
   }
   get MessageSource(): Observable<JSON> {
     return this.messageSource.asObservable();
+  }
+
+  get ReadySource():Observable<JSON> {
+    return this.readySource.asObservable();
   }
 
   getAlive(name: string){
@@ -81,6 +87,20 @@ export class SyncService {
   getPlayers() : any{
     var urlrole = this.urlhttp+"get_name_avatar/"+this.storage.get('session');
     return this.http.get(urlrole,{'responseType':'json'});
+  }
+  startPlayerLobby(){
+    this.playerSocket = new WebSocket('ws://localhost:8000/ready/'+this.storage.get('session')+'/');
+    this.playerSocket.onmessage = (event) => {
+     var response=JSON.parse(event['data']); 
+    if(response['type']=='join')
+    {
+         this.playerSource.next(response);
+    }
+    else if(response['type']=='ready')
+    {
+        this.readySource.next(response);
+    }
+    }
   }
 
   getRole(){

@@ -111,9 +111,8 @@ export class VotingComponent implements OnInit {
 
     voteCasted(argument){
         var clickedPlayer;
-        // this.websocket.send(JSON.stringify({'username':'ankit'}));
-        // console.log(argument['target'].innerText.split("\n")[0]);
-        // console.log(argument);
+        console.log(argument['target'].innerText.split("\n")[0]);
+        console.log(argument);
         //   Finding Clicked Player
         if(argument['target'].className == "mat-figure")
             clickedPlayer = argument['target'].innerText.split("\n")[0];
