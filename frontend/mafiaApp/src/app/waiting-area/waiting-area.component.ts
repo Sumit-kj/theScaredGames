@@ -42,10 +42,7 @@ export class WaitingAreaComponent implements OnInit,OnDestroy {
 
   constructor(private userService:UserSessionsService,private roleSetter:SyncService ,private storage: SessionStorageService) {
     this.visibleLink=false;
-    this.websocket = new WebSocket('ws://localhost:8000/ready/'+this.storage.get('session')+'/');
-    this.websocket.onmessage = (response) => {
-      console.log(response);
-    }
+    roleSetter.startPlayerLobby();
   }
 
   linkVisible(){
@@ -55,7 +52,7 @@ export class WaitingAreaComponent implements OnInit,OnDestroy {
   ngOnInit() {
     this.user.avatar = "https://static.wixstatic.com/media/13a4a7_93009681d85f450e97640bc48592963d~mv2_d_2633_1542_s_2.jpeg/v1/fill/w_1600,h_937,al_c,q_90/file.jpg";
     this.user.username = this.userService.userName;
-     console.log(this.user.username);
+    console.log(this.user.username);
     this.roleSetter.getRole().subscribe(response=>{
       this.role = response['role'];
       this.color = response['color'];
@@ -63,10 +60,10 @@ export class WaitingAreaComponent implements OnInit,OnDestroy {
     
   }
   ngOnDestroy(): void {
-    this.websocket.close();
+    this.roleSetter.playerSocket.close();
   }
   setAvatar(element):void {
-    this.websocket.send(JSON.stringify({'type': 'player_join', 'username': this.user.username }))
+    this.roleSetter.playerSocket.send(JSON.stringify({'type': 'player_join', 'username': this.user.username }))
     this.isReady=false;
     this.playerState = "Ready";
     if(this.previousElement !== undefined)
@@ -116,12 +113,13 @@ export class WaitingAreaComponent implements OnInit,OnDestroy {
   onReady(){
       this.isReady=true;
       this.playerState="Waiting for other Players";
-      this.setCards(50,0);
-      this.setCards(100,0);
       this.userService.setUserRole(this.role);
       this.roleSetter.setPlayer({'name':this.user.username,'avatar':this.user.avatar,'role':this.role,'alive':'True' ,'color':this.color});
       this.userService.userProperties(this.user.avatar,this.color,this.role,true);
       this.websocket.send(JSON.stringify({'type':'ready', 'username': this.user.username }))
-  }
+      // this.
+      this.setCards(50,0);
+      this.setCards(100,0);
+    }
 
 }

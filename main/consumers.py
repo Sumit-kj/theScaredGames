@@ -4,7 +4,6 @@ from main.models import Player, Vote
 from channels.generic.websocket import WebsocketConsumer
 import json
 
-
 class ScaredGamesConsumer(WebsocketConsumer):
 
     def connect(self):
@@ -36,7 +35,7 @@ class ScaredGamesConsumer(WebsocketConsumer):
             )
         elif content['type'] == 'get_result':
             pass
-
+        
     def disconnect(self, code):
         async_to_sync(self.channel_layer.group_discard)(
             self.room,
@@ -95,6 +94,7 @@ class LobbyConsumer(WebsocketConsumer):
             }))
 
     def lobby_join(self, event):
+        print(event)
         self.send(text_data=json.dumps({
             'type': 'join',
             'name': event['name'],

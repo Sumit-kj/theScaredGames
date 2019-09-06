@@ -12,12 +12,18 @@ import { Router } from '@angular/router';
 export class LoginpageComponent {
   username:string = "";
   session:string = "";
+  audio;
   isAlready:boolean = true;
   isJoining:boolean = false;
   constructor(private userService:UserSessionsService ,
     private service:SyncService,
     private storage:SessionStorageService,
-    private router: Router) { }
+    private router: Router) { 
+//       this.audio = new Audio();
+// this.audio.src = "/audio.mp3";
+// this.audio.load();
+// this.audio.play();
+    }
   url:string ="http://localhost:8000/create_session/"; 
   startGame():void {
     this.userService.userName = this.username;

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { LocalStorageService, SessionStorageService, LocalStorage, SessionStorage } from 'angular-web-storage';
+import { JsonPipe } from '@angular/common';
 @Injectable({
   providedIn: 'root'
 })
@@ -10,10 +11,11 @@ export class SyncService {
   url:string  = "ws://localhost:8000/sync/"
   private votesSource = new Subject<JSON>();
   private playerSource = new Subject<JSON>();
+  private readySource = new Subject<JSON>();
   private messageSource = new Subject<JSON>();
   urlhttp:string = "http://localhost:8000/";
   messageSocket:WebSocket;
-  
+  playerSocket: WebSocket;
   constructor(private http:HttpClient ,private storage:SessionStorageService ,private user: UserSessionsService) {
     
   }
@@ -56,9 +58,11 @@ export class SyncService {
   getVotes(){}
   endGame(){}
   getMessages(){}
-  getPlayers(){
-
-    
+  startPlayerLobby():void {
+    this.playerSocket = new WebSocket('ws://localhost:8000/ready/'+this.storage.get('session')+'/');
+    this.playerSocket.onmessage = (response) => {
+      console.log(response);
+    }
   }
 
   getRole(){
