@@ -65,7 +65,7 @@ export class LoginpageComponent implements OnInit{
     this.isJoining = true;
   }
 
-  enterGame():void{
+  enterGame():void {
     this.userService.userName = this.username;
     this.service.joinGame(this.username,this.id).then((response)=>{
       console.log(response);

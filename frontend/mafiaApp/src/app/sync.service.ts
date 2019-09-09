@@ -8,12 +8,12 @@ import { JsonPipe } from '@angular/common';
   providedIn: 'root'
 })
 export class SyncService {
-  url:string  = "ws://10.20.27.76:8000/sync/"
+  url:string  = "ws://localhost:8000/sync/"
   private votesSource = new Subject<JSON>();
   private playerSource = new Subject<JSON>();
   private readySource = new Subject<JSON>();
   private messageSource = new Subject<JSON>();
-  urlhttp:string = "http://10.20.27.76:8000/";
+  urlhttp:string = "http://localhost:8000/";
   messageSocket:WebSocket;
   playerSocket: WebSocket;
   constructor(private http:HttpClient ,private storage:SessionStorageService ,private user: UserSessionsService) {
@@ -91,6 +91,7 @@ export class SyncService {
   startPlayerLobby(){
     this.playerSocket = new WebSocket('ws://localhost:8000/ready/'+this.storage.get('session')+'/');
     this.playerSocket.onmessage = (event) => {
+      console.log(event);
      var response=JSON.parse(event['data']); 
     if(response['type']=='join')
     {
@@ -99,6 +100,10 @@ export class SyncService {
     else if(response['type']=='ready')
     {
         this.readySource.next(response);
+    }
+    else {
+      for(let r of response)
+        this.playerSource.next(r);
     }
     }
   }

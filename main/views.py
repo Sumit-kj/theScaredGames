@@ -48,6 +48,7 @@ def create_session(request):
         return json_error(e)
     return None
 
+
 @csrf_exempt
 def join_session(request, session):
     try:

@@ -56,6 +56,7 @@ export class WaitingAreaComponent implements OnInit,OnDestroy {
       // console.log(response);
     });
     this.roleSetter.PlayerSource.subscribe((response)=>{
+      console.log('name added',response['name'],response);
       var index =this.joinedArray.indexOf(response['name']);
       if(index==-1){
         this.joinedArray.unshift(response['name']);
