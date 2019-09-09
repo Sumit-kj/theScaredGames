@@ -43,6 +43,7 @@ export class WaitingAreaComponent implements OnInit,OnDestroy {
   readyArray=[];
   joinedArray=[];
   avatarArray=[{}];
+  copyMessage:string="Click to copy link";
   isAvatarNotSet:boolean=true;
   inviteUrl:string = "http://localhost:4200/join_game/session?id="+this.storage.get('session');
   constructor(private userService:UserSessionsService,private roleSetter:SyncService ,private storage: SessionStorageService) {
@@ -141,5 +142,18 @@ export class WaitingAreaComponent implements OnInit,OnDestroy {
       this.websocket.send(JSON.stringify({'type':'ready', 'username': this.user.username }))
       
     }
+
+
+    copyToClipboard(item): void {
+      let listener = (e: ClipboardEvent) => {
+          e.clipboardData.setData('text/plain', (item));
+          e.preventDefault();
+      };
+  
+      document.addEventListener('copy', listener);
+      document.execCommand('copy');
+      document.removeEventListener('copy', listener);
+      this.copyMessage="Link Copied";
+  }
 
 }

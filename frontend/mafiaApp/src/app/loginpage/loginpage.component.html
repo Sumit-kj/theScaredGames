@@ -8,7 +8,7 @@
     <button mat-raised-button color="primary" 
     (click)="startGame()" [disabled]="(this.username == '' || this.username == ' ' || !this.session== '')||(joinee=='joining')">Start a Game</button>
     <button mat-raised-button color="#fff" 
-    (click)="joinGame()" [disabled]="this.username == '' || this.username == ' '">Join a Game</button><br>
+    (click)="joinGame()" [disabled]="(this.username == '' || this.username == ' ')||(joinee=='joining')">Join a Game</button><br>
     <mat-form-field class="session-entry" *ngIf="isJoining">
         <input matInput placeholder="session id" autocomplete="off" #sessionId [(ngModel)]="id" required>
         <mat-error *ngIf="!sessionId.valid || sessionId.value == '' || userId.value == ' '">Please enter a valid session id</mat-error>

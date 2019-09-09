@@ -78,3 +78,7 @@ mat-list {
     padding-left:20px;
     color:greenyellow;
 }
+h3{
+    cursor: pointer;
+}
+

@@ -42,7 +42,7 @@
                             <mat-card-subtitle>Send them the link below</mat-card-subtitle>
                         </mat-card-header>
                         <mat-card-content>
-                            <h3>{{ inviteUrl }}</h3>
+                            <h3 (click)="copyToClipboard(inviteUrl)"  matTooltip="{{copyMessage}}" >{{ inviteUrl }}</h3>
                         </mat-card-content>
                         <mat-card-actions>
                             <a href="mailto:?subject=join my session on scared games!&body={{inviteUrl}}" mat-icon-button aria-label="E-mail Link">
