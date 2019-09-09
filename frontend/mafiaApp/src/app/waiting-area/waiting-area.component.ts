@@ -44,7 +44,7 @@ export class WaitingAreaComponent implements OnInit,OnDestroy {
   joinedArray=[];
   avatarArray=[{}];
   isAvatarNotSet:boolean=true;
-  inviteUrl:string = "http://localhost:8000/join_game/session?="+this.storage.get('session');
+  inviteUrl:string = "http://localhost:4200/join_game/session?id="+this.storage.get('session');
   constructor(private userService:UserSessionsService,private roleSetter:SyncService ,private storage: SessionStorageService) {
     this.visibleLink=false;
     this.result =roleSetter.startPlayerLobby();

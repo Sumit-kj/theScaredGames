@@ -105,7 +105,6 @@ export class SyncService {
     json_name.append('name',name);
     return this.http.post(urlgame,json_name,{'responseType':'json'}).toPromise();
   }
-
   endChat(): void {
     this.messageSocket.close();
   }

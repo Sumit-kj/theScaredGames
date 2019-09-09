@@ -12,7 +12,8 @@ const routes: Routes = [
   {'path': 'lobby', component:WaitingAreaComponent},
   {'path': 'voting', component:VotingComponent},
   {'path': 'game', component:DayNightComponent},
-  {'path': 'chat', component:ChatroomComponent }
+  {'path': 'chat', component:ChatroomComponent },
+  {'path': 'join_game/session',component:LoginpageComponent},
 ];
 
 @NgModule({
