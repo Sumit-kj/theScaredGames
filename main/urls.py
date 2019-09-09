@@ -7,8 +7,8 @@ urlpatterns = [
     path('create_session/', views.create_session, name="create a new session for a game"),
     path('join_session/<str:session>/', views.join_session, name="join an existing session"),
     path('add_player/', views.create_player, name="add a new player"),
-    path('kill_player/<int:player_id>/', views.kill_player, name="change player status from alive to dead"),
+    path('kill_player/<str:player_name>/', views.kill_player, name="change player status from alive to dead"),
     path('finish_game/', views.finish_game, name="terminate the session"),
-    path('get_all_players/<str:session>/', views.get_all, name="get all players and their states"),
+    path('get_name_avatar/<str:session>/', views.get_name_avatar, name="get all players and their states"),
     path('status/<str:name>/', views.player_status, name="get all players and their states"),
 ]

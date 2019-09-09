@@ -87,10 +87,12 @@ def create_player(request):
         return json_error(e)
 
 
-def kill_player(request, pid):
-    Player.objects.get(id=pid).delete()
-
-
+def kill_player(request, name):
+    # Player.objects.get(name=name).delete()
+    player = Player.objects.get(name=name)
+    player.update(alive=0)
+    player.save()
+    
 def session_change(request):
     return None
 
@@ -99,11 +101,11 @@ def finish_game(request, session):
     Session.objects.get(session=session).delete()
 
 
-def get_all(request, session):
+def get_name_avatar(request, session):
     query = Player.objects.filter(session=session)
     response = []
     for q in query:
-        response.append(q)
+        response.append({'name':q.name,'avatar':q.avatar,'color':q.color,'alive':q.alive})
     return JsonResponse(response, safe=False)
 
 

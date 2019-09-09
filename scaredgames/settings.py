@@ -25,7 +25,7 @@ SECRET_KEY = '8%var8804m$n9$-bgb!ske-qcwmgu_nf#)1cp42%9jm+@h(8ge'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost','10.20.27.76','127.0.0.1','0.0.0.0']
 
 
 # Application definition
@@ -123,6 +123,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_WHITELIST = [
+#     "http://10.20.27.76",
+#     "https://sub.example.com",
+#     "http://localhost:8080",
+#     "http://127.0.0.1:9000"
+# ]
 ASGI_APPLICATION = "scaredgames.routing.application"
 CHANNEL_LAYERS = {
     'default': {

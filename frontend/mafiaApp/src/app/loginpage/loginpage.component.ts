@@ -59,7 +59,7 @@ export class LoginpageComponent implements OnInit{
       }).catch(err => {
         console.error(err," happened");
       });
-}
+  }
 
   joinGame():void{
     this.isJoining = true;
